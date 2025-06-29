@@ -1,14 +1,6 @@
 public class Tabuleiro {
     private Casa[][] casas = new Casa[8][8];
 
-    private (int,int) getPosicao(Posicao pos){
-        linha = pos.getLinha.getNumero
-        coluna = pos.getColuna
-
-
-
-        return(linha, coluna)
-    }
     public Peca getPeca(Posicao pos) {
         linha = pos.getLinha().getNumero();
         coluna = pos.getColuna().getNumero();
