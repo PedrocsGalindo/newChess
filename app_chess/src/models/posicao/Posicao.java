@@ -2,7 +2,7 @@ public class Posicao {
     private Coluna coluna;
     private Linha linha;
 
-    public Posicao(Coluna coluna, Linha linha) {
+    public Posicao(Linha linha, Coluna coluna) {
         this.coluna = coluna;
         this.linha = linha;
     }
