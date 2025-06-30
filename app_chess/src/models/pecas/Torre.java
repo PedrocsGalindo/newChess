@@ -1,7 +1,4 @@
-import Peca;
-import posicao.Posicao;
-import posicao.Linha;
-import posicao.Coluna;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Torre implements Peca{
@@ -15,19 +12,19 @@ public class Torre implements Peca{
         List<Posicao> posicoes = new ArrayList<Posicao>();
 
         // Todas as verticais
-        coluna = posicao.getColuna;
+        Coluna coluna = posicao.getColuna();
         for (Linha l : Linha.values()){
             posicoes.add(new Posicao(l, coluna));
         }
         // Todas as horizontais
-        linha = posicao.getLinha
+        Linha linha = posicao.getLinha();
         for (Coluna c : Coluna.values()){
-            posicoes.add(new Posicao(linha, Coluna));
+            posicoes.add(new Posicao(linha, c));
         }
         // Removendo a posição atual
         posicoes.removeIf(element -> element.equals(posicao));
 
-        return posicoes
+        return posicoes;
     }
 
 }

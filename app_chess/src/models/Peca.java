@@ -1,4 +1,6 @@
+import java.util.List;
+
 public interface Peca{
-    public possiveis_movimentos(){}
+    public List<Posicao> possiveis_movimentos(Posicao posicao);
     
 }
