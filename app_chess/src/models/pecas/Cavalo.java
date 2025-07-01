@@ -15,7 +15,7 @@ public class Cavalo implements Peca{
     //não é responsabildiade de classe da peca verificar se tem outra peça no caminho
     public List<Posicao> possiveis_movimentos(Posicao posicao){
         List<Posicao> posicoes = new ArrayList<Posicao>();
-
+            int newC,newL;
             Coluna coluna = posicao.getColuna();
             Linha linha = posicao.getLinha();
             List<Coluna> colunas = new ArrayList<>(Arrays.asList(Coluna.values()));
@@ -30,8 +30,8 @@ public class Cavalo implements Peca{
             };
 
             for (int[] movimento : movimentos) {
-                int newL = il + movimento[0];
-                int newC = ic + movimento[1];
+                newL = il + movimento[0];
+                newC = ic + movimento[1];
                 if (newL >= 0 && newL < 8 && newC >= 0 && newC < 8) {
                     posicoes.add(new Posicao(linhas.get(newL), colunas.get(newC)));
                 }
