@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Cavalo implements Peca{
@@ -15,8 +16,26 @@ public class Cavalo implements Peca{
     public List<Posicao> possiveis_movimentos(Posicao posicao){
         List<Posicao> posicoes = new ArrayList<Posicao>();
 
+            Coluna c = posicao.getColuna();
+            Linha l = posicao.getLinha();
+            List<Coluna> colunas = new ArrayList<>(Arrays.asList(Coluna.values()));
+            List<Linha> linhas = new ArrayList<>(Arrays.asList(Linha.values()));
 
+            int ic = colunas.indexOf(c);
+            int il = linhas.indexOf(l);
 
+            int[][] movimentos = {
+            {2, 1}, {2, -1}, {-2, 1}, {-2, -1},
+            {1, 2}, {1, -2}, {-1, 2}, {-1, -2}
+            };
+
+            for (int[] movimento : movimentos) {
+                int newL = il + movimento[0];
+                int newC = ic + movimento[1];
+                if (newL >= 0 && newL < 8 && newC >= 0 && newC < 8) {
+                    posicoes.add(new Posicao(linhas.get(newL), colunas.get(newC)));
+                }
+            }
         return posicoes;
     }
 
