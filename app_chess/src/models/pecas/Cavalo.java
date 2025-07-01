@@ -16,13 +16,13 @@ public class Cavalo implements Peca{
     public List<Posicao> possiveis_movimentos(Posicao posicao){
         List<Posicao> posicoes = new ArrayList<Posicao>();
 
-            Coluna c = posicao.getColuna();
-            Linha l = posicao.getLinha();
+            Coluna coluna = posicao.getColuna();
+            Linha linha = posicao.getLinha();
             List<Coluna> colunas = new ArrayList<>(Arrays.asList(Coluna.values()));
             List<Linha> linhas = new ArrayList<>(Arrays.asList(Linha.values()));
 
-            int ic = colunas.indexOf(c);
-            int il = linhas.indexOf(l);
+            int ic = colunas.indexOf(coluna);
+            int il = linhas.indexOf(linha);
 
             int[][] movimentos = {
             {2, 1}, {2, -1}, {-2, 1}, {-2, -1},
