@@ -21,6 +21,7 @@ public class Tabuleiro {
     }
     public void moverPeca(Posicao origem, Posicao destino) {
         getCasa(destino).setPeca(getCasa(origem).getPeca());
+        //check_check();
         getCasa(origem).setPeca(null);
     }
     public void inicializar() {
@@ -29,8 +30,12 @@ public class Tabuleiro {
 
         this.casas[0][0].setPeca(new Torre(cor_branca));
         this.casas[0][8].setPeca(new Torre(cor_branca));
+        this.casas[0][1].setPeca(new Cavalo(cor_branca));
+        this.casas[0][7].setPeca(new Cavalo(cor_branca));
 
         this.casas[8][0].setPeca(new Torre(cor_preta));
         this.casas[8][8].setPeca(new Torre(cor_preta));
+        this.casas[8][1].setPeca(new Cavalo(cor_preta));
+        this.casas[8][7].setPeca(new Cavalo(cor_preta));
     }
 }
