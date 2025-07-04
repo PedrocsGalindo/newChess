@@ -29,13 +29,28 @@ public class Tabuleiro {
         Cor cor_branca = Cor.BRANCO;
 
         this.casas[0][0].setPeca(new Torre(cor_branca));
-        this.casas[0][8].setPeca(new Torre(cor_branca));
+        this.casas[0][7].setPeca(new Torre(cor_branca));
         this.casas[0][1].setPeca(new Cavalo(cor_branca));
-        this.casas[0][7].setPeca(new Cavalo(cor_branca));
+        this.casas[0][6].setPeca(new Cavalo(cor_branca));
+        this.casas[0][5].setPeca(new Bispo(cor_branca));
+        this.casas[0][2].setPeca(new Bispo(cor_branca));
+        this.casas[0][4].setPeca(new Rei(cor_branca));
+        this.casas[0][3].setPeca(new Rainha(cor_branca));
+        for (int i=0; i<8; i++){
+            this.casas[1][i].setPeca(new Peao(cor_branca));
+        }
 
-        this.casas[8][0].setPeca(new Torre(cor_preta));
-        this.casas[8][8].setPeca(new Torre(cor_preta));
-        this.casas[8][1].setPeca(new Cavalo(cor_preta));
-        this.casas[8][7].setPeca(new Cavalo(cor_preta));
+
+        this.casas[7][0].setPeca(new Torre(cor_preta));
+        this.casas[7][7].setPeca(new Torre(cor_preta));
+        this.casas[7][1].setPeca(new Cavalo(cor_preta));
+        this.casas[7][6].setPeca(new Cavalo(cor_preta));
+        this.casas[7][5].setPeca(new Bispo(cor_preta));
+        this.casas[7][2].setPeca(new Bispo(cor_preta));
+        this.casas[7][4].setPeca(new Rei(cor_preta));
+        this.casas[7][3].setPeca(new Rainha(cor_preta));
+        for (int i=0; i<8; i++){
+            this.casas[6][i].setPeca(new Peao(cor_preta));
+        }
     }
 }
