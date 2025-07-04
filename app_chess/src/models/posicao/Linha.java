@@ -10,4 +10,22 @@ public enum Linha {
     public int getNumero() {
         return numero;
     }
+    public Linha proxima() {
+        int atual = this.ordinal();
+        Linha[] linha = Linha.values();
+        if (atual < linha.length - 1) {
+            return linha[atual + 1];
+        } else {
+            return null;
+        }
+    }
+    public Linha anterior() {
+        int atual = this.ordinal();
+        Linha[] linha = Linha.values();
+        if (atual < linha.length - 1) {
+            return linha[atual - 1];
+        } else {
+            return null;
+        }
+    }
 }
