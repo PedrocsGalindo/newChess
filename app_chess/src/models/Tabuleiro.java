@@ -13,7 +13,6 @@ public class Tabuleiro {
             i++;
         }
     }
-    
     public Casa getCasa(Posicao pos) {
         int linha = pos.getLinha().getNumero();
         int coluna = pos.getColuna().getNumero();
@@ -21,7 +20,6 @@ public class Tabuleiro {
     }
     public void moverPeca(Posicao origem, Posicao destino) {
         getCasa(destino).setPeca(getCasa(origem).getPeca());
-        //check_check();
         getCasa(origem).setPeca(null);
     }
     public void inicializar() {
