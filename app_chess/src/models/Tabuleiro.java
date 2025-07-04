@@ -40,7 +40,6 @@ public class Tabuleiro {
             this.casas[1][i].setPeca(new Peao(cor_branca));
         }
 
-
         this.casas[7][0].setPeca(new Torre(cor_preta));
         this.casas[7][7].setPeca(new Torre(cor_preta));
         this.casas[7][1].setPeca(new Cavalo(cor_preta));
