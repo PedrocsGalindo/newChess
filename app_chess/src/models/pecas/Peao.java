@@ -28,6 +28,12 @@ public class Peao implements Peca{
     public Cor getColor(){
         return this.cor;
     }
+    public Boolean getFMove(){
+        return this.fMove;
+    }
+    public void setFMove(Boolean fmove){
+        this.fMove = fmove;
+    }
     // Não é responsabildiade de classe da peca verificar se tem outra peça no caminho
     public List<Posicao> possiveis_movimentos(Posicao posicao){
         int newC,newL;
