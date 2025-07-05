@@ -1,0 +1,6 @@
+@Matchfinder_HostAddress = http://localhost:5043
+
+GET {{Matchfinder_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
