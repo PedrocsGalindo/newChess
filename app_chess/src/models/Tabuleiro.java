@@ -16,8 +16,12 @@ public class Tabuleiro {
     public Casa getCasa(Posicao pos) {
         int linha = pos.getLinha().getNumero();
         int coluna = pos.getColuna().getNumero();
-        return this.casas[linha-1][coluna-1];       // -1 because index 0-7 and chess 1-8
+        return this.casas[linha][coluna];
     }
+    public Casa getCasa(int il, int ic) {
+        return this.casas[il][ic];
+    }
+
     public void moverPeca(Posicao origem, Posicao destino) {
         getCasa(destino).setPeca(getCasa(origem).getPeca());
         getCasa(origem).setPeca(null);
