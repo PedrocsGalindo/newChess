@@ -6,6 +6,10 @@ public class Posicao {
         this.coluna = coluna;
         this.linha = linha;
     }
+    public Posicao(int iLinha, int iColuna) {
+        this.coluna = Coluna.fromOrdinal(iColuna);
+        this.linha = Linha.fromOrdinal(iLinha);
+    }
 
     public Coluna getColuna() {
         return coluna;
