@@ -1,0 +1,44 @@
+[
+  {
+    "ContainingType": "Matchfinder.Controllers.MatchMakerController",
+    "Method": "MatchmakerStatus",
+    "RelativePath": "api/MatchMaker",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Matchfinder.Controllers.MatchMakerController",
+    "Method": "Entrar",
+    "RelativePath": "api/MatchMaker/BuscarPartida",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "jogador",
+        "Type": "Matchfinder.DTOs.JogadorDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Matchfinder.Controllers.MatchMakerController",
+    "Method": "Sair",
+    "RelativePath": "api/MatchMaker/SairPartida",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "jogadorId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
