@@ -1,14 +1,18 @@
 public enum Linha {
-    UM(1), DOIS(2), TRES(3), QUATRO(4), CINCO(5), SEIS(6), SETE(7), OITO(8);
+    UM(), DOIS(), TRES(), QUATRO(), CINCO(), SEIS(), SETE(), OITO();
 
-    private int numero;
+    private static final Linha[] CACHE = values();
 
-    Linha(int numero) {
-        this.numero = numero;
+    public static Linha fromOrdinal(int ordinal) {
+        if (ordinal < 0 || ordinal >= CACHE.length) {
+            throw new IllegalArgumentException("Índice inválido: " + ordinal);
+        }
+        return CACHE[ordinal];
     }
 
     public int getNumero() {
-        return numero;
+        // 0-7
+        return this.ordinal();
     }
     public Linha proxima() {
         int atual = this.ordinal();
