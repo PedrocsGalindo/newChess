@@ -14,6 +14,7 @@ public class Peao implements Peca{
      */
     final Cor cor;
     private Boolean fMove;
+    private int moveCount = 0;
 
     // Contrutor supõe que seja a primeira jogada
     public Peao(Cor cor){
@@ -30,6 +31,9 @@ public class Peao implements Peca{
     }
     public Boolean getFMove(){
         return this.fMove;
+    }
+    public int getMoveCount(){
+        return this.moveCount;
     }
     public void setFMove(Boolean fmove){
         this.fMove = fmove;
