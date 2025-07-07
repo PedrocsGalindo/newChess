@@ -1,3 +1,10 @@
+package models;
+
+import models.pecas.*;
+import models.posicao.Coluna;
+import models.posicao.Linha;
+import models.posicao.Posicao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +19,10 @@ public class Partida {
     public Partida(){
         this.tabuleiro.inicializar();
     }
+    public void moverPeca(Posicao posicao, Posicao novaPosicao){
+        
+    }
+
     public List<Posicao> selecionarCasa(Posicao posicao){
         Casa casa = this.tabuleiro.getCasa(posicao);
         Peca peca = casa.getPeca();

@@ -1,3 +1,5 @@
+package models.posicao;
+
 public enum Coluna {
     A, B, C, D, E, F, G, H;
 

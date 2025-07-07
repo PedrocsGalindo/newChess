@@ -1,3 +1,10 @@
+package models;
+
+import models.pecas.*;
+import models.posicao.Coluna;
+import models.posicao.Linha;
+import models.posicao.Posicao;
+
 public class Tabuleiro {
     private Casa[][] casas = new Casa[8][8];
 

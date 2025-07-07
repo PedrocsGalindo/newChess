@@ -1,3 +1,5 @@
+package models.posicao;
+
 public enum Linha {
     UM(), DOIS(), TRES(), QUATRO(), CINCO(), SEIS(), SETE(), OITO();
 

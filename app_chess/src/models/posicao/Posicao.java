@@ -1,6 +1,8 @@
-public class Posicao {
-    private Coluna coluna;
-    private Linha linha;
+package models.posicao;
+
+public class Posicao{
+    final Coluna coluna;
+    final Linha linha;
 
     public Posicao(Linha linha, Coluna coluna) {
         this.coluna = coluna;

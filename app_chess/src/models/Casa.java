@@ -1,6 +1,10 @@
+package models;
+
+import models.posicao.Posicao;
+
 public class Casa {
     private Posicao posicao;
-    private Peca peca; 
+    private Peca peca;
 
     // Construtor
     public Casa(Posicao posicao, Peca peca) {

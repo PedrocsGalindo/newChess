@@ -1,3 +1,7 @@
+package models;
+
+import models.pecas.Cor;
+import models.posicao.Posicao;
 
 import java.util.List;
 

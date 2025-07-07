@@ -1,11 +1,15 @@
-package models.Peca;
+package models.pecas;
 
-import models.Peca.Peca;
+import models.Peca;
+import models.posicao.Posicao;
+import models.posicao.Coluna;
+import models.posicao.Linha;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Bispo implements Peca{
+public class Bispo implements Peca {
     final Cor cor;
 
     public Bispo(Cor cor){
@@ -14,6 +18,7 @@ public class Bispo implements Peca{
     public Cor getColor(){
         return this.cor;
     }
+
     //não é responsabildiade de classe da peca verificar se tem outra peça no caminho
     public List<Posicao> possiveis_movimentos(Posicao posicao){
         int newC,newL;

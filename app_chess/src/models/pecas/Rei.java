@@ -1,3 +1,9 @@
+package models.pecas;
+
+import models.Peca;
+import models.posicao.Posicao;
+import models.posicao.Coluna;
+import models.posicao.Linha;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

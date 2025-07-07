@@ -1,3 +1,9 @@
+package models.pecas;
+
+import models.Peca;
+import models.posicao.Posicao;
+import models.posicao.Coluna;
+import models.posicao.Linha;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +13,7 @@ public class Torre implements Peca{
     public Torre(Cor cor){
         this.cor = cor;
     }
+
     public Cor getColor(){
         return this.cor;
     }
