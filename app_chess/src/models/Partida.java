@@ -4,6 +4,7 @@ import models.pecas.*;
 import models.posicao.Coluna;
 import models.posicao.Linha;
 import models.posicao.Posicao;
+import models.exceptions.KingInDangerException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class Partida {
     }
 
     // Rever logica ainda mais levando em consideração estados da partida
-    public void moverPeca(Posicao posicao, Posicao novaPosicao){
+    public void moverPeca(Posicao posicao, Posicao novaPosicao) throws KingInDangerException{
         Casa casa = this.tabuleiro.getCasa(posicao);
         Peca peca = casa.getPeca();
 
@@ -31,22 +32,47 @@ public class Partida {
                 this.tabuleiro.moverPeca(posicao, novaPosicao);
                 //colocar cor oposta
                 if (jogadorBranco == jogadorVez) {
-                    if (isMate(jogadorPreto)){
+                    if (isMate(jogadorBranco)){
                         this.estado = "mate";
                     } else if (isCheck(jogadorPreto)) {
                         this.estado = "check";
                     }
                 } else {
-                    if (isMate(jogadorBranco)){
+                    if (isMate(jogadorPreto)){
                         this.estado = "mate";
                     } else if (isCheck(jogadorBranco)) {
                         this.estado = "check";
                     }
                 }
             } else {
-                throw new kingInDangerException();
+                throw new KingInDangerException("Jogada invalida, rei vulnevavel");
             }
         }
+    }
+    private Boolean isMate(Cor cor){
+        /* 
+         * Ve todas as suas possiveis jogadas.
+         * 
+         * Returns:
+         *  true -> if has check
+        */
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                Peca pecaA = this.tabuleiro.getCasa(i, j).getPeca();
+                if (pecaA.getColor().equals(cor)){
+                    Posicao posicaoA = new Posicao(i, j);
+                    List<Posicao> posicoes = possiveiMovimentos(posicaoA);
+                    for (Posicao p : posicoes){
+                        if (makeCheck(posicaoA, p)){
+                            continue;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
     private Boolean isCheck(Cor cor){
         /* 
