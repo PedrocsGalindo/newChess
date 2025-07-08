@@ -13,17 +13,86 @@ public class Partida {
     final Cor jogadorBranco = Cor.BRANCO;
     final Cor jogadorPreto = Cor.PRETO;
     private Cor jogadorVez = jogadorBranco;
-    private String estado = "andamento";
+    private String estado = "andamento"; // andamento, check, mate
 
 
     public Partida(){
         this.tabuleiro.inicializar();
     }
-    public void moverPeca(Posicao posicao, Posicao novaPosicao){
-        
-    }
 
-    public List<Posicao> selecionarCasa(Posicao posicao){
+    // Rever logica ainda mais levando em consideração estados da partida
+    public void moverPeca(Posicao posicao, Posicao novaPosicao){
+        Casa casa = this.tabuleiro.getCasa(posicao);
+        Peca peca = casa.getPeca();
+
+        // A verificação de check mate ao mover o rei ja é feita na hora que é selecionado
+        if (! (peca instanceof Rei)){
+            if (! makeCheck(posicao, novaPosicao)){
+                this.tabuleiro.moverPeca(posicao, novaPosicao);
+                //colocar cor oposta
+                if (jogadorBranco == jogadorVez) {
+                    if (isMate(jogadorPreto)){
+                        this.estado = "mate";
+                    } else if (isCheck(jogadorPreto)) {
+                        this.estado = "check";
+                    }
+                } else {
+                    if (isMate(jogadorBranco)){
+                        this.estado = "mate";
+                    } else if (isCheck(jogadorBranco)) {
+                        this.estado = "check";
+                    }
+                }
+            } else {
+                throw new kingInDangerException();
+            }
+        }
+    }
+    private Boolean isCheck(Cor cor){
+        /* 
+         * Ve todas as possiveis jogadas do adversario, até o rei estiver no caminho de alguma.
+         * 
+         * Returns:
+         *  true -> if has check
+        */
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                Peca pecaA = this.tabuleiro.getCasa(i, j).getPeca();
+                if (! pecaA.getColor().equals(cor)){
+                    Posicao posicaoA = new Posicao(i, j);
+                    List<Posicao> posicoes = possiveiMovimentos(posicaoA);
+                    for (Posicao p : posicoes){
+                        Peca pp = this.tabuleiro.getCasa(p).getPeca();
+                        if (pp instanceof Rei){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    private Boolean makeCheck(Posicao posicao, Posicao novaPosicao){
+        /* 
+         * Returns:
+         *  true -> if play made check
+        */
+        Casa casa = this.tabuleiro.getCasa(posicao);
+        Peca peca = casa.getPeca();
+        Casa ncasa = this.tabuleiro.getCasa(novaPosicao);
+        casa.setPeca(null);
+        ncasa.setPeca(peca);
+
+        if (isCheck(peca.getColor())){
+            // Devolve a peça para casa
+            casa.setPeca(peca);
+            return true;
+        }
+        // Devolve a peça para casa
+        casa.setPeca(peca);
+        return false;
+    }
+    public List<Posicao> possiveiMovimentos(Posicao posicao){
         Casa casa = this.tabuleiro.getCasa(posicao);
         Peca peca = casa.getPeca();
 
@@ -39,9 +108,12 @@ public class Partida {
             verificarJogadaRainha(posicoes, posicao, peca.getColor());
         } else if (peca instanceof Rei) {
             verificarJogadaRei(posicoes, posicao, peca.getColor());
-        } else if (peca instanceof Rei) {
+        } else if (peca instanceof Cavalo) {
             verificarJogadaCavalo(posicoes, posicao, peca.getColor());
         } 
+        if (this.estado.equals("check")){
+            jogadaPossivelCheck(posicoes, posicao, peca.getColor());
+        }
         return posicoes;
     }
     private void verificarJogadaBispo(List<Posicao> posicoes, Posicao posicao, Cor corPeca){
@@ -114,12 +186,18 @@ public class Partida {
                 break;
             }
         }
-
         posicoes.removeAll(posicoesToRemove);
+
+        if (this.estado.equals("check")){
+            jogadaPossivelCheck(posicoes, posicao, corPeca);
+        }
     }
     private void verificarJogadaRainha(List<Posicao> posicoes, Posicao posicao, Cor corPeca){
         verificarJogadaBispo(posicoes, posicao, corPeca);
         verificarJogadaTorre(posicoes, posicao, corPeca);
+        if (this.estado.equals("check")){
+            jogadaPossivelCheck(posicoes, posicao, corPeca);
+        }
     }
     private void verificarJogadaRei(List<Posicao> posicoes, Posicao posicao, Cor corPeca){
         
@@ -137,6 +215,9 @@ public class Partida {
             if(casa.getPeca().getColor() == corPeca){
                 posicoes.removeIf(element -> element.equals(p));
             }
+        }
+        if (this.estado.equals("check")){
+            jogadaPossivelCheck(posicoes, posicao, corPeca);
         }
     }
     private void verificarJogadaTorre(List<Posicao> posicoes, Posicao posicao, Cor corPeca){
@@ -209,7 +290,9 @@ public class Partida {
             }
         }
         posicoes.removeAll(posicoesToRemove);
-
+        if (this.estado.equals("check")){
+            jogadaPossivelCheck(posicoes, posicao, corPeca);
+        }
     }
     private void verificarJogadaPeao(List<Posicao> posicoes, Posicao posicao, Peca peca){
         Linha l = posicao.getLinha();
@@ -271,6 +354,19 @@ public class Partida {
                 posicoes.removeIf(element -> element.equals(p));
             }
         }
+    }
+
+    private void jogadaPossivelCheck(List<Posicao> posicoes, Posicao posicao, Cor corPeca){
+        /*
+         * Dado que ja esta em check, verifica se a jogada ocasionara em outro check
+         */
+        List<Posicao> posicoesToRemove = new ArrayList<Posicao>();
+        for (Posicao p : posicoes){
+            if (makeCheck(posicao, p)){
+                posicoesToRemove.add(p);
+            }
+        }
+        posicoes.removeAll(posicoesToRemove);
     }
     public String getEstado(){
         return this.estado;
