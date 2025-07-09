@@ -87,10 +87,8 @@ public class VerificadorDeEstados {
                     Posicao posicaoA = new Posicao(i, j);
                     List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
                     posicoes = vj.verificarJogada(tabuleiro, posicaoA, posicoes);
-                    for (Posicao p : posicoes){
-                        if ( ! makeCheck(tabuleiro, posicaoA, p)){
-                            return false;
-                        }
+                    if (! posicoes.isEmpty()){
+                        return false;
                     }
                 }
             }
