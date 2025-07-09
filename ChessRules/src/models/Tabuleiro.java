@@ -61,4 +61,16 @@ public class Tabuleiro {
             this.casas[6][i].setPeca(new Peao(cor_preta));
         }
     }
+    @Override
+    public String toString() {
+        String tabuleiro = "";
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                tabuleiro += this.casas[i][j].toString();
+                tabuleiro += " ";
+            }
+            tabuleiro += "\n";
+        }
+        return tabuleiro;
+    }
 }
