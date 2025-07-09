@@ -9,7 +9,9 @@ import models.posicao.Linha;
 import models.posicao.Posicao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VerificadorDeJogadas {
 
@@ -274,5 +276,20 @@ public class VerificadorDeJogadas {
         posicoes.removeAll(posicoesToRemove);
 
         return posicoes;
+    }
+    public Map<Posicao, List<Posicao>> todasPossiveisJogadas(Tabuleiro tabuleiro, Cor cor){
+        Map<Posicao, List<Posicao>> possiveisJogadas = new HashMap<Posicao, List<Posicao>>();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Peca pecaA = tabuleiro.getCasa(i, j).getPeca();
+                if (pecaA.getColor().equals(cor)) {
+                    Posicao posicaoA = new Posicao(i, j);
+                    List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
+                    posicoes = verificarJogada(tabuleiro, posicaoA, posicoes);
+                    possiveisJogadas.put(posicaoA, posicoes);
+                }
+            }
+        }
+        return possiveisJogadas;
     }
 }
