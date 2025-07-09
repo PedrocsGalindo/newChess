@@ -77,5 +77,9 @@ public class Bispo implements Peca {
         }
         return posicoes;
     }
+    @Override
+    public String toString() {
+        return "B" + "" + cor.toString();
+    }
 
 }

@@ -41,5 +41,9 @@ public class Torre implements Peca{
 
         return posicoes;
     }
+    @Override
+    public String toString() {
+        return  cor.toString() + "" + "R";
+    }
 
 }

@@ -44,5 +44,9 @@ public class Rei implements Peca{
         }
         return posicoes;
     }
+    @Override
+    public String toString() {
+        return  cor.toString() + "" + "K";
+    }
 
 }

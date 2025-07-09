@@ -10,4 +10,14 @@ public enum Cor {
             return Cor.BRANCO;
         }
     }
+    @Override
+    public String toString() {
+        switch (this){
+            case BRANCO:
+                return "W";
+            case PRETO:
+                return "B";
+        }
+        return "";
+    }
 }

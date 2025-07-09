@@ -44,5 +44,9 @@ public class Cavalo implements Peca{
             }
         return posicoes;
     }
+    @Override
+    public String toString() {
+        return  cor.toString() + "" + "N";
+    }
 
 }

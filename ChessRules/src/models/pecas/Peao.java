@@ -86,5 +86,9 @@ public class Peao implements Peca{
         }
         return posicoes;
     }
+    @Override
+    public String toString() {
+        return  cor.toString() + "" + "P";
+    }
 
 }
