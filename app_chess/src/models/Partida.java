@@ -21,35 +21,40 @@ public class Partida {
         this.tabuleiro.inicializar();
     }
 
+    // falta logica de promoção
+
     // Rever logica ainda mais levando em consideração estados da partida
     public void moverPeca(Posicao posicao, Posicao novaPosicao) throws KingInDangerException{
-        Casa casa = this.tabuleiro.getCasa(posicao);
-        Peca peca = casa.getPeca();
 
-        // A verificação de check mate ao mover o rei ja é feita na hora que é selecionado
-        if (! (peca instanceof Rei)){
-            if (! makeCheck(posicao, novaPosicao)){
-                this.tabuleiro.moverPeca(posicao, novaPosicao);
-                //colocar cor oposta
-                if (jogadorBranco == jogadorVez) {
-                    if (isMate(jogadorBranco)){
-                        this.estado = "mate";
-                    } else if (isCheck(jogadorPreto)) {
-                        this.estado = "check";
-                    }
+        // Se não deixar o rei vulneravel 
+        if (! makeCheck(posicao, novaPosicao)){
+            this.tabuleiro.moverPeca(posicao, novaPosicao);
+
+            if (jogadorBranco == this.jogadorVez) {
+                if (! hasMove(jogadorBranco)){
+                    this.estado = "mate";
+                } else if (isCheck(jogadorPreto)) {
+                    this.estado = "check";
+                    this.jogadorVez = jogadorPreto;
                 } else {
-                    if (isMate(jogadorPreto)){
-                        this.estado = "mate";
-                    } else if (isCheck(jogadorBranco)) {
-                        this.estado = "check";
-                    }
+                    this.jogadorVez = jogadorPreto;
                 }
             } else {
-                throw new KingInDangerException("Jogada invalida, rei vulnevavel");
+                if ( ! hasMove(jogadorPreto)){
+                    this.estado = "mate";
+                } else if (isCheck(jogadorBranco)) {
+                    this.estado = "check";
+                    this.jogadorVez = jogadorBranco;
+                } else {
+                    this.jogadorVez = jogadorBranco;
+                }
             }
+        } else {
+            throw new KingInDangerException("Jogada invalida, rei vulnevavel");
         }
+
     }
-    private Boolean isMate(Cor cor){
+    private Boolean hasMove(Cor cor){
         /* 
          * Ve todas as suas possiveis jogadas.
          * 
@@ -66,7 +71,7 @@ public class Partida {
                         if (makeCheck(posicaoA, p)){
                             continue;
                         } else {
-                            return false;
+                            return true;
                         }
                     }
                 }
@@ -76,7 +81,7 @@ public class Partida {
     }
     private Boolean isCheck(Cor cor){
         /* 
-         * Ve todas as possiveis jogadas do adversario, até o rei estiver no caminho de alguma.
+         * Ve todas as possiveis jogadas do adversario, até o rei estar no caminho de alguma.
          * 
          * Returns:
          *  true -> if has check
@@ -137,6 +142,7 @@ public class Partida {
         } else if (peca instanceof Cavalo) {
             verificarJogadaCavalo(posicoes, posicao, peca.getColor());
         } 
+        
         if (this.estado.equals("check")){
             jogadaPossivelCheck(posicoes, posicao, peca.getColor());
         }
@@ -229,11 +235,15 @@ public class Partida {
         
         for (Posicao p: posicoes){
             Casa casa = this.tabuleiro.getCasa(p);
+            // se for da mesma cor
             if(casa.getPeca().getColor() == corPeca){
                 posicoes.removeIf(element -> element.equals(p));
             }
+            // se for deixar em check
+            if (makeCheck(posicao, p)){
+                posicoes.removeIf(element -> element.equals(p));
+            }
         }
-        // Já deve validar se ta em check tambem
     }
     private void verificarJogadaCavalo(List<Posicao> posicoes, Posicao posicao, Cor corPeca){
         for (Posicao p: posicoes){
