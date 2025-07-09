@@ -36,7 +36,7 @@ public class Partida {
                 peca = new Rainha(peca.getColor());
             case 'R':
                 peca = new Torre(peca.getColor());
-            case 'K':
+            case 'N':
                 peca = new Cavalo(peca.getColor());
             case 'B':
                 peca = new Bispo(peca.getColor());
