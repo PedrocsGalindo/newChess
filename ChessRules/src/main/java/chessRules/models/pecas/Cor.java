@@ -1,4 +1,5 @@
-package java.models.pecas;
+package chessRules.models.pecas;
+
 public enum Cor {
     BRANCO,
     PRETO;

@@ -1,10 +1,10 @@
-package java.models;
+package chessRules.models;
 
-import java.models.pecas.*;
-import java.models.posicao.Posicao;
-import java.exceptions.KingInDangerException;
-import java.utils.VerificadorDeEstados;
-import java.utils.VerificadorDeJogadas;
+import chessRules.models.pecas.*;
+import chessRules.models.posicao.Posicao;
+import chessRules.exceptions.KingInDangerException;
+import chessRules.utils.VerificadorDeEstados;
+import chessRules.utils.VerificadorDeJogadas;
 
 import java.util.List;
 

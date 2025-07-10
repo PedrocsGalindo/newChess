@@ -1,4 +1,4 @@
-package java.models;
+package chessRules.models;
 
 import java.models.pecas.*;
 import java.models.posicao.Coluna;
