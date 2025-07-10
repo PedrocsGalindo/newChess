@@ -1,9 +1,12 @@
 package chessRules.models;
 
-import java.models.pecas.*;
-import java.models.posicao.Coluna;
-import java.models.posicao.Linha;
-import java.models.posicao.Posicao;
+import chessRules.models.pecas.*;
+import chessRules.models.posicao.Coluna;
+import chessRules.models.posicao.Linha;
+import chessRules.models.posicao.Posicao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tabuleiro {
     private Casa[][] casas = new Casa[8][8];
@@ -18,6 +21,21 @@ public class Tabuleiro {
                 j ++;
             }
             i++;
+        }
+    }
+    public Tabuleiro(List<String> posicaoPecas){
+        int i = 1;
+        for (Linha l : Linha.values()){
+            int j = 1;
+            for (Coluna c : Coluna.values()){
+                this.casas[i][j] = new Casa(new Posicao(l, c));
+                j ++;
+            }
+            i++;
+        }
+        
+        for (String p : posicaoPecas){
+
         }
     }
     public Casa getCasa(Posicao pos) {
@@ -70,6 +88,18 @@ public class Tabuleiro {
                 tabuleiro += " ";
             }
             tabuleiro += "\n";
+        }
+        return tabuleiro;
+    }
+
+    public List<String> toJson() {
+        List<String> tabuleiro = new ArrayList<>();
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                if(this.casas[i][j].getPeca() != null){
+                    tabuleiro.add(this.casas[i][j].toString());
+                }
+            }
         }
         return tabuleiro;
     }
