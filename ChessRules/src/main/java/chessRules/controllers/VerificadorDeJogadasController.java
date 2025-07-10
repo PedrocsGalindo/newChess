@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import chessRules.models.posicao.Posicao;
 import chessRules.utils.VerificadorDeJogadas;
+import dtos.JogadaRequest;
 
 @RestController
 public class VerificadorDeJogadasController {
@@ -26,7 +27,15 @@ public class VerificadorDeJogadasController {
     VerificadorDeJogadasController() {}
     
     @GetMapping("/JogadasPossiveis")
-    Map<Posicao, List<Posicao>> all(@RequestBody Tabuleiro board, Cor playerColor) {
-        return vj.todasPossiveisJogadas(board, playerColor);
+    Map<Posicao, List<Posicao>> all(@RequestBody JogadaRequest request) {
+        /*
+        Exemplo of request:
+            {
+                "Tabuleiro": ["WR1a", "WN2a","WB3a", ...]
+                },
+                "Cor": "BRANCO"
+            } 
+        */
+        return vj.todasPossiveisJogadas(request.getTabuleiro(), request.getCor());
     }
 }
