@@ -1,6 +1,6 @@
-package java.models;
+package chessRules.models;
 
-import java.models.posicao.Posicao;
+import chessRules.models.posicao.Posicao;
 
 public class Casa {
     private Posicao posicao;

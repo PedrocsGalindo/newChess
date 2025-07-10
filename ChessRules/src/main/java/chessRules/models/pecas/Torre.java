@@ -1,9 +1,9 @@
-package java.models.pecas;
+package chessRules.models.pecas;
 
-import java.models.Peca;
-import java.models.posicao.Posicao;
-import java.models.posicao.Coluna;
-import java.models.posicao.Linha;
+import chessRules.models.Peca;
+import chessRules.models.posicao.Posicao;
+import chessRules.models.posicao.Coluna;
+import chessRules.models.posicao.Linha;
 import java.util.ArrayList;
 import java.util.List;
 

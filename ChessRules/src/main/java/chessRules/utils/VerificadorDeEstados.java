@@ -1,16 +1,11 @@
-package java.utils;
+package chessRules.utils;
 
-import java.models.Casa;
-import java.models.Peca;
-import java.models.Tabuleiro;
-import java.models.pecas.Cor;
-import java.models.pecas.Rei;
-import java.models.posicao.Posicao;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import chessRules.models.Casa;
+import chessRules.models.Peca;
+import chessRules.models.Tabuleiro;
+import chessRules.models.pecas.Cor;
+import chessRules.models.pecas.Rei;
+import chessRules.models.posicao.Posicao;
 
 import java.util.List;
 

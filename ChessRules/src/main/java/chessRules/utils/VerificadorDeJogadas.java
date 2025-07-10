@@ -1,12 +1,12 @@
-package java.utils;
+package chessRules.utils;
 
-import java.models.Casa;
-import java.models.Peca;
-import java.models.Tabuleiro;
-import java.models.pecas.*;
-import java.models.posicao.Coluna;
-import java.models.posicao.Linha;
-import java.models.posicao.Posicao;
+import chessRules.models.Casa;
+import chessRules.models.Peca;
+import chessRules.models.Tabuleiro;
+import chessRules.models.pecas.*;
+import chessRules.models.posicao.Coluna;
+import chessRules.models.posicao.Linha;
+import chessRules.models.posicao.Posicao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
