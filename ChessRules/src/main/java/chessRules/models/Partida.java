@@ -1,7 +1,6 @@
 package chessRules.models;
 
 import chessRules.models.pecas.*;
-import chessRules.models.posicao.Posicao;
 import chessRules.exceptions.KingInDangerException;
 import chessRules.utils.VerificadorDeEstados;
 import chessRules.utils.VerificadorDeJogadas;

@@ -11,10 +11,10 @@ public class JogadaRequest {
         
     }
 
-    public Tabuleiro getBoard() {
+    public Tabuleiro getTabuleiro() {
         return board;
     }
-    public Cor getPlayerColor() {
+    public Cor getCor() {
         return playerColor;
     }
 }

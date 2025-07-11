@@ -1,7 +1,7 @@
 package chessRules.models;
 
 import chessRules.models.pecas.Cor;
-import chessRules.models.posicao.Posicao;
+import chessRules.models.Posicao;
 
 import java.util.List;
 

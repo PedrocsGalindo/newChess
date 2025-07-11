@@ -1,0 +1,41 @@
+package chessRules.models;
+
+public class Posicao{
+    public final int linha; //{1,2,3,4,5,6,7,8}
+    public final char coluna; // {'a','b','c','d','e','f','g','h'}
+
+    public Posicao(int l, char c) {
+        if (l < 1 || l > 8) {
+            throw new IllegalArgumentException("Linha inválida: " + l);
+        }
+        this.linha = l;
+
+        c = Character.toLowerCase(c);
+        if ((int)c < 97 || (int)c > 104) {
+            throw new IllegalArgumentException("Coluna inválida: " + c);
+        }
+        this.coluna = c;
+    }
+    public Posicao(int l, int c) {
+        if (l < 0 || l > 7) {
+            throw new IllegalArgumentException("Linha inválida: " + l);
+        }
+        this.linha = l+1;
+        if (c < 0 || c > 7) {
+            throw new IllegalArgumentException("Coluna inválida: " + c);
+        }
+        this.coluna = (char)(c+97);
+    }
+
+    public int getIndiceLinha() {
+        return linha-1;
+    }
+    public int getIndiceColuna() {
+        return ((int)coluna)-97;
+    }
+
+    @Override
+    public String toString() {
+        return "" + this.linha + this.coluna;
+    }
+}

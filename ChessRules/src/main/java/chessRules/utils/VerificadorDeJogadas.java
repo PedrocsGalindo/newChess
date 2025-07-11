@@ -4,9 +4,7 @@ import chessRules.models.Casa;
 import chessRules.models.Peca;
 import chessRules.models.Tabuleiro;
 import chessRules.models.pecas.*;
-import chessRules.models.posicao.Coluna;
-import chessRules.models.posicao.Linha;
-import chessRules.models.posicao.Posicao;
+import chessRules.models.Posicao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,11 +16,8 @@ public class VerificadorDeJogadas {
     static final VerificadorDeEstados ve = new VerificadorDeEstados();
 
     private void verificarJogadaBispo(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Cor corPeca){
-        Linha l = posicao.getLinha();
-        Coluna c = posicao.getColuna();
-
-        int il = l.getNumero();
-        int ic = c.getNumero();
+        int il = posicao.getIndiceLinha();
+        int ic = posicao.getIndiceColuna();
 
         List<Posicao> posicoesToRemove = new ArrayList<>();
 
@@ -116,11 +111,8 @@ public class VerificadorDeJogadas {
         }
     }
     private void verificarJogadaTorre(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Cor corPeca){
-        Linha l = posicao.getLinha();
-        Coluna c = posicao.getColuna();
-
-        int il = l.getNumero();
-        int ic = c.getNumero();
+        int il = posicao.getIndiceLinha();
+        int ic = posicao.getIndiceColuna();
 
         List<Posicao> posicoesToRemove = new ArrayList<>();
 
@@ -187,13 +179,8 @@ public class VerificadorDeJogadas {
         posicoes.removeAll(posicoesToRemove);
     }
     private void verificarJogadaPeao(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Peca peca){
-        Linha l = posicao.getLinha();
-        Coluna c = posicao.getColuna();
-
-        int il = l.getNumero();
-        int ic = c.getNumero();
-
-
+        int il = posicao.getIndiceLinha();
+        int ic = posicao.getIndiceColuna();
 
         Casa casa1 = tabuleiro.getCasa(il+1, ic+1);
         Peca pecaC1 = casa1.getPeca();
@@ -278,7 +265,7 @@ public class VerificadorDeJogadas {
         return posicoes;
     }
     public Map<Posicao, List<Posicao>> todasPossiveisJogadas(Tabuleiro tabuleiro, Cor cor){
-        Map<Posicao, List<Posicao>> possiveisJogadas = new HashMap<Posicao, List<Posicao>>();
+        Map<Posicao, List<Posicao>> possiveisJogadas = new HashMap<>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Peca pecaA = tabuleiro.getCasa(i, j).getPeca();

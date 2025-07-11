@@ -1,9 +1,9 @@
 package chessRules.models;
 
-import chessRules.models.posicao.Posicao;
+import chessRules.models.pecas.*;
 
 public class Casa {
-    private Posicao posicao;
+    private final Posicao posicao;
     private Peca peca;
 
     // Construtor
@@ -28,6 +28,40 @@ public class Casa {
     }
 
     public void setPeca(Peca peca) {
+        this.peca = peca;
+    }
+    public void setPeca(char c, char p) {
+
+        Cor cor;
+        if (c == 'B'){
+            cor = Cor.PRETO;
+        } else {
+            cor = Cor.BRANCO;
+        }
+
+        Peca peca;
+        switch (p) {
+            case 'K':
+                peca = new Rei(cor);
+                break;
+            case 'N':
+                peca = new Cavalo(cor);
+                break;
+            case 'R':
+                peca = new Torre(cor);
+                break;
+            case 'B':
+                peca = new Bispo(cor);
+                break;
+            case 'Q':
+                peca = new Rainha(cor);
+                break;
+            case 'P':
+                peca = new Peao(cor);
+                break;
+            default:
+                throw new IllegalArgumentException(p + " não é uma peça valida");
+        }
         this.peca = peca;
     }
     @Override

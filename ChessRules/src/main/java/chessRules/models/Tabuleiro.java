@@ -1,11 +1,7 @@
 package chessRules.models;
 
 import chessRules.models.pecas.*;
-import chessRules.models.posicao.Coluna;
-import chessRules.models.posicao.Linha;
-import chessRules.models.posicao.Posicao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Tabuleiro {
@@ -13,34 +9,36 @@ public class Tabuleiro {
 
     // Tabuleiro vazio
     public Tabuleiro(){
-        int i = 1;
-        for (Linha l : Linha.values()){
-            int j = 1;
-            for (Coluna c : Coluna.values()){
-                this.casas[i][j] = new Casa(new Posicao(l, c));
-                j ++;
+        for (int l= 0; l<8; l++){
+            for (int c= 0; c<8; c++){
+                this.casas[l][c] = new Casa(new Posicao(l, c));
             }
-            i++;
         }
     }
     public Tabuleiro(List<String> posicaoPecas){
         int i = 1;
-        for (Linha l : Linha.values()){
-            int j = 1;
-            for (Coluna c : Coluna.values()){
-                this.casas[i][j] = new Casa(new Posicao(l, c));
-                j ++;
+        for (int l= 0; l<8; l++){
+            for (int c= 0; c<8; c++){
+                this.casas[l][c] = new Casa(new Posicao(l, c));
             }
-            i++;
         }
-        
-        for (String p : posicaoPecas){
+        int linha, l, c;
+        char coluna, corPeca, peca;
 
+        for (String pp : posicaoPecas){
+            corPeca = pp.charAt(0);
+            peca = pp.charAt(1);
+            linha = pp.charAt(2);
+            coluna = pp.charAt(3);
+            Posicao p = new Posicao(linha, coluna);
+            l = p.getIndiceLinha();
+            c = p.getIndiceColuna();
+            this.casas[l][c].setPeca(corPeca, peca);
         }
     }
     public Casa getCasa(Posicao pos) {
-        int linha = pos.getLinha().getNumero();
-        int coluna = pos.getColuna().getNumero();
+        int linha = pos.getIndiceLinha();
+        int coluna = pos.getIndiceColuna();
         return this.casas[linha][coluna];
     }
     public Casa getCasa(int il, int ic) {
@@ -88,18 +86,6 @@ public class Tabuleiro {
                 tabuleiro += " ";
             }
             tabuleiro += "\n";
-        }
-        return tabuleiro;
-    }
-
-    public List<String> toJson() {
-        List<String> tabuleiro = new ArrayList<>();
-        for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 8; j++){
-                if(this.casas[i][j].getPeca() != null){
-                    tabuleiro.add(this.casas[i][j].toString());
-                }
-            }
         }
         return tabuleiro;
     }

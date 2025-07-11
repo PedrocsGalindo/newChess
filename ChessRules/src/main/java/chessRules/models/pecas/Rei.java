@@ -1,11 +1,9 @@
 package chessRules.models.pecas;
 
 import chessRules.models.Peca;
-import chessRules.models.posicao.Posicao;
-import chessRules.models.posicao.Coluna;
-import chessRules.models.posicao.Linha;
+import chessRules.models.Posicao;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Rei implements Peca{
@@ -20,15 +18,10 @@ public class Rei implements Peca{
     //não é responsabildiade de classe da peca verificar se tem outra peça no caminho
     public List<Posicao> possiveis_movimentos(Posicao posicao){
         int newC,newL;
-        List<Posicao> posicoes = new ArrayList<Posicao>();
+        List<Posicao> posicoes = new ArrayList<>();
 
-        Coluna coluna = posicao.getColuna();
-        Linha linha = posicao.getLinha();
-        List<Coluna> colunas = new ArrayList<>(Arrays.asList(Coluna.values()));
-        List<Linha> linhas = new ArrayList<>(Arrays.asList(Linha.values()));
-        
-        int ic = colunas.indexOf(coluna);
-        int il = linhas.indexOf(linha);
+        int ic = posicao.getIndiceColuna();
+        int il = posicao.getIndiceLinha();
 
         int[][] movimentos = {
             {1, 1}, {1, -1}, {-1, 1}, {-1, -1},
@@ -39,14 +32,14 @@ public class Rei implements Peca{
             newL = il + movimento[0];
             newC = ic + movimento[1];
             if (newL >= 0 && newL < 8 && newC >= 0 && newC < 8) {
-                posicoes.add(new Posicao(linhas.get(newL), colunas.get(newC)));
+                posicoes.add(new Posicao(newL, newC));
             }
         }
         return posicoes;
     }
     @Override
     public String toString() {
-        return  cor.toString() + "" + "K";
+        return  cor.toString() + "K";
     }
 
 }

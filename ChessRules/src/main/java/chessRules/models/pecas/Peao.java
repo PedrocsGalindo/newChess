@@ -1,11 +1,9 @@
 package chessRules.models.pecas;
 
 import chessRules.models.Peca;
-import chessRules.models.posicao.Posicao;
-import chessRules.models.posicao.Coluna;
-import chessRules.models.posicao.Linha;
+import chessRules.models.Posicao;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -41,21 +39,21 @@ public class Peao implements Peca{
     public int getMoveCount(){
         return this.moveCount;
     }
-    public void setFMove(Boolean fmove){
+    public void increseMoveCount(){
+        this.moveCount += 1;
+    }
+    public void increseMoveCount(Boolean fmove){
         this.fMove = fmove;
     }
+
     // Não é responsabildiade de classe da peca verificar se tem outra peça no caminho
     public List<Posicao> possiveis_movimentos(Posicao posicao){
         int newC,newL;
-        List<Posicao> posicoes = new ArrayList<Posicao>();
+        List<Posicao> posicoes = new ArrayList<>();
 
-        Coluna coluna = posicao.getColuna();
-        Linha linha = posicao.getLinha();
-        List<Coluna> colunas = new ArrayList<>(Arrays.asList(Coluna.values()));
-        List<Linha> linhas = new ArrayList<>(Arrays.asList(Linha.values()));
 
-        int ic = colunas.indexOf(coluna);
-        int il = linhas.indexOf(linha);
+        int ic = posicao.getIndiceColuna();
+        int il = posicao.getIndiceLinha();
 
 
         int[][] movimentos = {
@@ -66,10 +64,10 @@ public class Peao implements Peca{
         Cor preto = Cor.PRETO;
 
         if (this.fMove & this.cor == branco){
-            posicoes.add(new Posicao(linhas.get(il + 2), colunas.get(ic)));
+            posicoes.add(new Posicao(il + 2, ic));
         }
         if (this.fMove & this.cor == preto){
-            posicoes.add(new Posicao(linhas.get(il - 2), colunas.get(ic)));
+            posicoes.add(new Posicao(il - 2, ic));
         }
 
         // So passaria do limite de linha se chegasse no final, e quando chega, muda de peça 
@@ -78,17 +76,17 @@ public class Peao implements Peca{
             newC = ic + movimento[1];
 
             if(il > 0 & this.cor == branco & (newC >= 0 && newC < 8)){
-                posicoes.add(new Posicao(linhas.get(newL), colunas.get(newC)));
+                posicoes.add(new Posicao(newL, newC));
             }
             if(il < 0 & this.cor == preto & (newC >= 0 && newC < 8)){ 
-                posicoes.add(new Posicao(linhas.get(newL), colunas.get(newC)));
+                posicoes.add(new Posicao(newL, newC));
             }
         }
         return posicoes;
     }
     @Override
     public String toString() {
-        return  cor.toString() + "" + "P";
+        return  cor.toString() + "P";
     }
 
 }

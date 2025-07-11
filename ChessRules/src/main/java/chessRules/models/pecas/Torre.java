@@ -1,9 +1,8 @@
 package chessRules.models.pecas;
 
 import chessRules.models.Peca;
-import chessRules.models.posicao.Posicao;
-import chessRules.models.posicao.Coluna;
-import chessRules.models.posicao.Linha;
+import chessRules.models.Posicao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,17 +23,20 @@ public class Torre implements Peca{
          * sua propria posição.
          */
 
-        List<Posicao> posicoes = new ArrayList<Posicao>();
+        int newC,newL;
+        List<Posicao> posicoes = new ArrayList<>();
+
+        int ic = posicao.getIndiceColuna();
+        int il = posicao.getIndiceLinha();
+
 
         // Todas as verticais
-        Coluna coluna = posicao.getColuna();
-        for (Linha l : Linha.values()){
-            posicoes.add(new Posicao(l, coluna));
+        for (int l = 0; l <8; l++){
+            posicoes.add(new Posicao(l, ic));
         }
         // Todas as horizontais
-        Linha linha = posicao.getLinha();
-        for (Coluna c : Coluna.values()){
-            posicoes.add(new Posicao(linha, c));
+        for (int c = 0; c <8; c++){
+            posicoes.add(new Posicao(il, c));
         }
         // Removendo a posição atual
         posicoes.removeIf(element -> element.equals(posicao));
@@ -43,7 +45,7 @@ public class Torre implements Peca{
     }
     @Override
     public String toString() {
-        return  cor.toString() + "" + "R";
+        return  cor.toString() + "R";
     }
 
 }
