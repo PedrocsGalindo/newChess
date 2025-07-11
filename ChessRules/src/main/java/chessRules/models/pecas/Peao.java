@@ -60,13 +60,11 @@ public class Peao implements Peca{
             {1, 1}, {1, -1}, {1, 0},
             {-1, 1}, {-1, 0}, {-1, -1}
         };
-        Cor branco = Cor.BRANCO;
-        Cor preto = Cor.PRETO;
 
-        if (this.fMove & this.cor == branco){
+        if (this.fMove & this.cor == Cor.BRANCO){
             posicoes.add(new Posicao(il + 2, ic));
         }
-        if (this.fMove & this.cor == preto){
+        if (this.fMove & this.cor == Cor.PRETO){
             posicoes.add(new Posicao(il - 2, ic));
         }
 
@@ -75,10 +73,10 @@ public class Peao implements Peca{
             newL = il + movimento[0];
             newC = ic + movimento[1];
 
-            if(il > 0 & this.cor == branco & (newC >= 0 && newC < 8)){
+            if(il > 0 & this.cor == Cor.BRANCO & (newC >= 0 && newC < 8)){
                 posicoes.add(new Posicao(newL, newC));
             }
-            if(il < 0 & this.cor == preto & (newC >= 0 && newC < 8)){ 
+            if(il < 0 & this.cor == Cor.PRETO & (newC >= 0 && newC < 8)){
                 posicoes.add(new Posicao(newL, newC));
             }
         }
@@ -87,6 +85,14 @@ public class Peao implements Peca{
     @Override
     public String toString() {
         return  cor.toString() + "P";
+    }
+    @Override
+    public Peca clone() {
+        try {
+            return (Peao) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

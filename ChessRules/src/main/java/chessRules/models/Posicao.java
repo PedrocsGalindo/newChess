@@ -33,9 +33,21 @@ public class Posicao{
     public int getIndiceColuna() {
         return ((int)coluna)-97;
     }
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Posicao outro = (Posicao)obj;
+        return this.linha == outro.linha && this.coluna == outro.coluna;
+    }
 
     @Override
     public String toString() {
         return "" + this.linha + this.coluna;
     }
+    public String toJson() {
+        return "" + this.linha + this.coluna;
+    }
+
 }

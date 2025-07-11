@@ -4,18 +4,18 @@ import chessRules.models.Tabuleiro;
 import chessRules.models.pecas.Cor;
 
 public class JogadaRequest {
-    private Tabuleiro board;
-    private Cor playerColor;
+    private Tabuleiro tabuleiro;
+    private Cor cor;
 
     public JogadaRequest(){
         
     }
 
     public Tabuleiro getTabuleiro() {
-        return board;
+        return tabuleiro;
     }
     public Cor getCor() {
-        return playerColor;
+        return cor;
     }
 }
 

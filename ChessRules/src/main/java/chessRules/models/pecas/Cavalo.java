@@ -42,5 +42,13 @@ public class Cavalo implements Peca{
     public String toString() {
         return  cor.toString() + "N";
     }
+    @Override
+    public Peca clone() {
+        try {
+            return (Cavalo) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

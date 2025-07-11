@@ -30,7 +30,7 @@ public class VerificadorDeJogadas {
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i + 1; i < limite; i++){
+                for (int j = i + 1; j < limite; j++){
 
                     posicoesToRemove.add(new Posicao(il + j,ic + j));
                 }
@@ -46,7 +46,7 @@ public class VerificadorDeJogadas {
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i + 1; i < limite; i++){
+                for (int j = i + 1; j < limite; j++){
                     posicoesToRemove.add(new Posicao(il + j,ic - j));
                 }
                 break;
@@ -61,7 +61,7 @@ public class VerificadorDeJogadas {
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i + 1; i < limite; i++){
+                for (int j = i + 1; j < limite; j++){
                     posicoesToRemove.add(new Posicao(il - j,ic - j));
                 }
                 break;
@@ -76,7 +76,7 @@ public class VerificadorDeJogadas {
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i + 1; i < limite; i++){
+                for (int j = i + 1; j < limite; j++){
                     posicoesToRemove.add(new Posicao(il - j,ic + j));
                 }
                 break;
@@ -89,26 +89,28 @@ public class VerificadorDeJogadas {
         verificarJogadaTorre(tabuleiro, posicoes, posicao, corPeca);
     }
     private void verificarJogadaRei(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Cor corPeca){
+        List<Posicao> posicoesToRemove = new ArrayList<>();
 
         for (Posicao p: posicoes){
             Casa casa = tabuleiro.getCasa(p);
             // se for da mesma cor
             if(casa.getPeca().getColor() == corPeca){
-                posicoes.removeIf(element -> element.equals(p));
-            }
-            // se for deixar em check
-            if (ve.makeCheck(tabuleiro, posicao, p)){
-                posicoes.removeIf(element -> element.equals(p));
+                posicoesToRemove.add(p);
             }
         }
+        posicoes.removeAll(posicoesToRemove);
     }
-    private void verificarJogadaCavalo(Tabuleiro tabuleiro, List<Posicao> posicoes, Cor corPeca){
-        for (Posicao p: posicoes){
-            Casa casa = tabuleiro.getCasa(p);
-            if(casa.getPeca().getColor() == corPeca){
-                posicoes.removeIf(element -> element.equals(p));
+    private void verificarJogadaCavalo(Tabuleiro tabuleiro, List<Posicao> posicoes, Cor corPeca) {
+        List<Posicao> posicoesToRemove = new ArrayList<>();
+        for (Posicao p : posicoes) {
+            Peca peca = tabuleiro.getCasa(p).getPeca();
+            if (peca != null) {
+                if (peca.getColor() == corPeca) {
+                    posicoesToRemove.add(p);
+                }
             }
         }
+        posicoes.removeAll(posicoesToRemove);
     }
     private void verificarJogadaTorre(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Cor corPeca){
         int il = posicao.getIndiceLinha();
@@ -124,7 +126,7 @@ public class VerificadorDeJogadas {
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i - 1; i >= 0; i--){
+                for (int j = i - 1; j >= 0; j--){
 
                     posicoesToRemove.add(new Posicao(il, j));
                 }
@@ -139,7 +141,7 @@ public class VerificadorDeJogadas {
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i + 1; i < 8; i++){
+                for (int j = i + 1; j < 8; j++){
 
                     posicoesToRemove.add(new Posicao(il, j));
                 }
@@ -154,8 +156,7 @@ public class VerificadorDeJogadas {
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i + 1; i < 8; i++){
-
+                for (int j = i + 1; j < 8; j++){
                     posicoesToRemove.add(new Posicao(j, ic));
                 }
                 break;
@@ -169,8 +170,7 @@ public class VerificadorDeJogadas {
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i - 1; i >= 0; i--){
-
+                for (int j = i - 1; j >= 0; j--){
                     posicoesToRemove.add(new Posicao(j, ic));
                 }
                 break;
@@ -179,63 +179,131 @@ public class VerificadorDeJogadas {
         posicoes.removeAll(posicoesToRemove);
     }
     private void verificarJogadaPeao(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Peca peca){
-        int il = posicao.getIndiceLinha();
-        int ic = posicao.getIndiceColuna();
-
-        Casa casa1 = tabuleiro.getCasa(il+1, ic+1);
-        Peca pecaC1 = casa1.getPeca();
-
-        // Peças pra comer e enpassaunt
-        if (pecaC1 != null ){
-            if (pecaC1.getColor() == peca.getColor()) {
-                posicoes.removeIf(element -> element.equals(casa1.getPosicao()));
-            }
+        if (peca.getColor() == Cor.BRANCO){
+            verificarJogadaPeaoBranco(tabuleiro, posicoes, posicao, peca);
         } else {
-            // enpassaunt
-            Casa casa2 = tabuleiro.getCasa(il, ic+1);
-            Peca pecaC2 = casa2.getPeca();
-            if (pecaC2 instanceof Peao) {
-                if (((Peao) pecaC2).getMoveCount() != 1) {
+            verificarJogadaPeaoPreto(tabuleiro, posicoes, posicao, peca);
+        }
+    }
+    private void verificarJogadaPeaoPreto(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Peca peca){
+        int l = posicao.getIndiceLinha();
+        int c = posicao.getIndiceColuna();
+
+        // Comer na diagonal direita ou verificar enpassaunt
+        if (c+1 < 8) {
+            Casa casa1 = tabuleiro.getCasa(l - 1, c + 1);
+            Peca pecaC1 = casa1.getPeca();
+
+            if (pecaC1 != null) {
+                if (pecaC1.getColor() == peca.getColor()) {
                     posicoes.removeIf(element -> element.equals(casa1.getPosicao()));
                 }
-            }
-        }
-
-        Casa casa3 = tabuleiro.getCasa(il+1, ic-1);
-        Peca pecaC3 = casa3.getPeca();
-        if (pecaC3 != null ){
-            if (pecaC3.getColor() == peca.getColor()) {
-                posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
-            }
-        } else {
-            // enpassaunt
-            Casa casa4 = tabuleiro.getCasa(il, ic-1);
-            Peca pecaC4 = casa4.getPeca();
-            if (pecaC4 instanceof Peao) {
-                if (((Peao) pecaC4).getMoveCount() != 1) {
-                    posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
+            } else {
+                // enpassaunt
+                Casa casa2 = tabuleiro.getCasa(l, c + 1);
+                Peca pecaC2 = casa2.getPeca();
+                if (pecaC2 instanceof Peao) {
+                    if (((Peao) pecaC2).getMoveCount() != 1) {
+                        posicoes.removeIf(element -> element.equals(casa1.getPosicao()));
+                    }
                 }
             }
         }
-
+        // Comer na diagonal esquerda ou verificar enpassaunt
+        if (c-1 >= 0){
+            Casa casa3 = tabuleiro.getCasa(l-1, c-1);
+            Peca pecaC3 = casa3.getPeca();
+            if (pecaC3 != null ){
+                if (pecaC3.getColor() == peca.getColor()) {
+                    posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
+                }
+            } else {
+                // enpassaunt
+                Casa casa4 = tabuleiro.getCasa(l, c-1);
+                Peca pecaC4 = casa4.getPeca();
+                if (pecaC4 instanceof Peao) {
+                    if (((Peao) pecaC4).getMoveCount() != 1) {
+                        posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
+                    }
+                }
+            }
+        }
         // move forward
-        Casa casa5 = tabuleiro.getCasa(il+1, ic);
+        Casa casa5 = tabuleiro.getCasa(l-1, c);
 
         if (casa5.getPeca() != null ){
             posicoes.removeIf(element -> element.equals(casa5.getPosicao()));
-            Posicao p = new Posicao(il+2, ic);
+            Posicao p = new Posicao(l-2, c);
             if (posicoes.contains(p)){
                 posicoes.removeIf(element -> element.equals(p));
             }
         } else {
-            Posicao p = new Posicao(il+2, ic);
+            Posicao p = new Posicao(l-2, c);
             if (((Peao) peca).getFMove() & tabuleiro.getCasa(p).getPeca() != null){
                 posicoes.removeIf(element -> element.equals(p));
             }
         }
     }
+    private void verificarJogadaPeaoBranco(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Peca peca){
+        int l = posicao.getIndiceLinha();
+        int c = posicao.getIndiceColuna();
 
-    public List<Posicao>  verificarJogada(Tabuleiro tabuleiro, Posicao posicao, List<Posicao> posicoes) {
+        // Comer na diagonal direita ou verificar enpassaunt
+        if (c+1 < 8) {
+            Casa casa1 = tabuleiro.getCasa(l + 1, c + 1);
+            Peca pecaC1 = casa1.getPeca();
+
+            if (pecaC1 != null) {
+                if (pecaC1.getColor() == peca.getColor()) {
+                    posicoes.removeIf(element -> element.equals(casa1.getPosicao()));
+                }
+            } else {
+                // enpassaunt
+                Casa casa2 = tabuleiro.getCasa(l, c + 1);
+                Peca pecaC2 = casa2.getPeca();
+                if (pecaC2 instanceof Peao) {
+                    if (((Peao) pecaC2).getMoveCount() != 1) {
+                        posicoes.removeIf(element -> element.equals(casa1.getPosicao()));
+                    }
+                }
+            }
+        }
+        // Comer na diagonal esquerda ou verificar enpassaunt
+        if (c-1 >= 0){
+            Casa casa3 = tabuleiro.getCasa(l+1, c-1);
+            Peca pecaC3 = casa3.getPeca();
+            if (pecaC3 != null ){
+                if (pecaC3.getColor() == peca.getColor()) {
+                    posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
+                }
+            } else {
+                // enpassaunt
+                Casa casa4 = tabuleiro.getCasa(l, c-1);
+                Peca pecaC4 = casa4.getPeca();
+                if (pecaC4 instanceof Peao) {
+                    if (((Peao) pecaC4).getMoveCount() != 1) {
+                        posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
+                    }
+                }
+            }
+        }
+        // move forward
+        Casa casa5 = tabuleiro.getCasa(l+1, c);
+
+        if (casa5.getPeca() != null ){
+            posicoes.removeIf(element -> element.equals(casa5.getPosicao()));
+            Posicao p = new Posicao(l+2, c);
+            if (posicoes.contains(p)){
+                posicoes.removeIf(element -> element.equals(p));
+            }
+        } else {
+            Posicao p = new Posicao(l+2, c);
+            if (((Peao) peca).getFMove() & tabuleiro.getCasa(p).getPeca() != null){
+                posicoes.removeIf(element -> element.equals(p));
+            }
+        }
+    }
+    public List<Posicao> verificarPecasNoCaminho(Tabuleiro tabuleiro, Posicao posicao, List<Posicao> posicoes){
         Casa casa = tabuleiro.getCasa(posicao);
         Peca peca = casa.getPeca();
 
@@ -252,10 +320,22 @@ public class VerificadorDeJogadas {
         } else if (peca instanceof Cavalo) {
             verificarJogadaCavalo(tabuleiro, posicoes, peca.getColor());
         }
+        return posicoes;
+    }
+
+    public List<Posicao>  verificarJogada(Tabuleiro tabuleiro, Posicao posicao, List<Posicao> posicoes) {
+        Casa casa = tabuleiro.getCasa(posicao);
+        Peca peca = casa.getPeca();
+
+        posicoes = verificarPecasNoCaminho(tabuleiro,posicao, posicoes);
 
         // Verificação se a jogada vai deixar em check
         List<Posicao> posicoesToRemove = new ArrayList<>();
+        System.out.println(posicoes);
         for (Posicao p: posicoes){
+            System.out.println(p);
+            System.out.println("\n \n\n");
+
             if (ve.makeCheck(tabuleiro, posicao, p)){
                 posicoesToRemove.add(p);
             }
@@ -269,11 +349,13 @@ public class VerificadorDeJogadas {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Peca pecaA = tabuleiro.getCasa(i, j).getPeca();
-                if (pecaA.getColor().equals(cor)) {
-                    Posicao posicaoA = new Posicao(i, j);
-                    List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
-                    posicoes = verificarJogada(tabuleiro, posicaoA, posicoes);
-                    possiveisJogadas.put(posicaoA, posicoes);
+                if (pecaA != null){
+                    if (pecaA.getColor().equals(cor)) {
+                        Posicao posicaoA = new Posicao(i, j);
+                        List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
+                        posicoes = verificarJogada(tabuleiro, posicaoA, posicoes);
+                        possiveisJogadas.put(posicaoA, posicoes);
+                    }
                 }
             }
         }

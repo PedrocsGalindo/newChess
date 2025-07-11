@@ -73,5 +73,13 @@ public class Bispo implements Peca {
     public String toString() {
         return cor.toString() + "B";
     }
+    @Override
+    public Peca clone() {
+        try {
+            return (Bispo) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

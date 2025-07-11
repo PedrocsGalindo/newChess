@@ -86,5 +86,13 @@ public class Rainha implements Peca{
     public String toString() {
         return  cor.toString() + "Q";
     }
+    @Override
+    public Peca clone() {
+        try {
+            return (Rainha) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

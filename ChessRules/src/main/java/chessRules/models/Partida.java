@@ -53,6 +53,9 @@ public class Partida {
 
         this.estado = ve.verificarEstado(tabuleiro, this.jogadorVez);
     }
+    public Tabuleiro getTabuleiro() {
+        return this.tabuleiro;
+    }
     public String getEstado(){
         return this.estado;
     }

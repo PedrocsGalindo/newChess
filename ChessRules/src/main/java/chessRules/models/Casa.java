@@ -2,7 +2,7 @@ package chessRules.models;
 
 import chessRules.models.pecas.*;
 
-public class Casa {
+public class Casa implements Cloneable {
     private final Posicao posicao;
     private Peca peca;
 
@@ -65,7 +65,20 @@ public class Casa {
         this.peca = peca;
     }
     @Override
-    public String toString() {
-        return peca.toString() + "" + posicao.toString();
+    public String toString(){
+        if (this.peca == null){
+            return null + " " + this.posicao.toString();
+        }
+        return this.peca.toString() + "" + this.posicao.toString();
+    }
+    @Override
+    public Casa clone() {
+        try {
+            Casa nova = (Casa) super.clone();
+            nova.peca = (peca != null) ? peca.clone() : null; // usa polimorfismo
+            return nova;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

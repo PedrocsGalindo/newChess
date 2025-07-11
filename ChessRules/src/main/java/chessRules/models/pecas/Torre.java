@@ -16,6 +16,7 @@ public class Torre implements Peca{
     public Cor getColor(){
         return this.cor;
     }
+
     //não é responsabildiade de classe da peca verificar se tem outra peça no caminho
     public List<Posicao> possiveis_movimentos(Posicao posicao){
         /**
@@ -47,5 +48,12 @@ public class Torre implements Peca{
     public String toString() {
         return  cor.toString() + "R";
     }
-
+    @Override
+    public Peca clone() {
+        try {
+            return (Torre) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

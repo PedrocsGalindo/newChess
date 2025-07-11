@@ -2,9 +2,10 @@ package chessRules.models;
 
 import chessRules.models.pecas.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Tabuleiro {
+public class Tabuleiro implements Cloneable {
     private Casa[][] casas = new Casa[8][8];
 
     // Tabuleiro vazio
@@ -16,7 +17,6 @@ public class Tabuleiro {
         }
     }
     public Tabuleiro(List<String> posicaoPecas){
-        int i = 1;
         for (int l= 0; l<8; l++){
             for (int c= 0; c<8; c++){
                 this.casas[l][c] = new Casa(new Posicao(l, c));
@@ -79,14 +79,47 @@ public class Tabuleiro {
     }
     @Override
     public String toString() {
-        String tabuleiro = "";
-        for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 8; j++){
-                tabuleiro += this.casas[i][j].toString();
-                tabuleiro += " ";
+        StringBuilder tabuleiro = new StringBuilder();
+        for (int i = 7; i >= 0; i--){
+            for (int j = 7; j >= 0; j--){
+                Peca peca = this.casas[i][j].getPeca();
+                if (peca != null){
+                    tabuleiro.append(peca);
+                } else {
+                    tabuleiro.append(" ");
+                }
+                tabuleiro.append(" ");
             }
-            tabuleiro += "\n";
+            tabuleiro.append("\n");
+        }
+        return tabuleiro.toString();
+    }
+    public List<String> toJson(){
+        List<String> tabuleiro = new ArrayList<>();
+        for (int i = 7; i >= 0; i--){
+            for (int j = 7; j >= 0; j--){
+                if (this.casas[i][j].getPeca() != null){
+                    tabuleiro.add(this.casas[i][j].toString());
+                }
+            }
         }
         return tabuleiro;
+    }
+    @Override
+    public Tabuleiro clone() {
+        try {
+            Tabuleiro novo = (Tabuleiro) super.clone();
+            novo.casas = new Casa[8][8];
+
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    novo.casas[i][j] = casas[i][j].clone();
+                }
+            }
+
+            return novo;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

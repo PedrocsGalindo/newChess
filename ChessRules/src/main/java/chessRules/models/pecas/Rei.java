@@ -41,5 +41,13 @@ public class Rei implements Peca{
     public String toString() {
         return  cor.toString() + "K";
     }
+    @Override
+    public Peca clone() {
+        try {
+            return (Rei) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

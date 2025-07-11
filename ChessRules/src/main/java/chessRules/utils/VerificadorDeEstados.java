@@ -1,6 +1,5 @@
 package chessRules.utils;
 
-import chessRules.models.Casa;
 import chessRules.models.Peca;
 import chessRules.models.Tabuleiro;
 import chessRules.models.pecas.Cor;
@@ -23,32 +22,21 @@ public class VerificadorDeEstados {
         }
     }
 
-    public Boolean makeCheck(Tabuleiro tabuleiro, Posicao posicao, Posicao novaPosicao){
+    public Boolean makeCheck(Tabuleiro tabuleiro, Posicao p, Posicao np){
         /*
          * Returns:
          *  true -> if play made check
          */
-        Casa casa = tabuleiro.getCasa(posicao);
-        Peca peca = casa.getPeca();
-        Casa ncasa = tabuleiro.getCasa(novaPosicao);
-        Peca npeca = casa.getPeca();
-        casa.setPeca(null);
-        ncasa.setPeca(peca);
+        Tabuleiro tabuleiroAux = tabuleiro.clone();
+        System.out.println(tabuleiro.getCasa(p).toString());
+        Cor corAnalisada = tabuleiroAux.getCasa(p).getPeca().getColor();
+        tabuleiroAux.moverPeca(p, np);
 
-        if (isCheck(tabuleiro, peca.getColor())){
-            // Devolve a peça para casa
-            casa.setPeca(peca);
-            ncasa.setPeca(npeca);
-            return true;
-        }
-        // Devolve a peça para casa
-        casa.setPeca(peca);
-        ncasa.setPeca(npeca);
-        return false;
+        return isCheck(tabuleiroAux, corAnalisada);
     }
     public Boolean isCheck(Tabuleiro  tabuleiro, Cor cor){
         /*
-         * Ve todas as possiveis jogadas do adversario, até o rei estar no caminho de alguma.
+         * Ve todas as possiveis jogadas do adversario, até o rei estar no caminho de alguma, caso tenha.
          *
          * Returns:
          *  true -> if has check
@@ -56,14 +44,22 @@ public class VerificadorDeEstados {
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 Peca pecaA = tabuleiro.getCasa(i, j).getPeca();
-                if (! pecaA.getColor().equals(cor)){
-                    Posicao posicaoA = new Posicao(i, j);
-                    List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
-                    posicoes = vj.verificarJogada(tabuleiro, posicaoA, posicoes);
-                    for (Posicao p : posicoes){
-                        Peca pp =tabuleiro .getCasa(p).getPeca();
-                        if (pp instanceof Rei){
-                            return true;
+                if (pecaA != null){
+                    if (! pecaA.getColor().equals(cor)){
+                        System.out.println("Peça adversaria:");
+                        System.out.println(pecaA);
+                        System.out.print(i);
+                        System.out.print(j);
+                        System.out.println("\n");
+
+                        Posicao posicaoA = new Posicao(i, j);
+                        List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
+                        posicoes = vj.verificarPecasNoCaminho(tabuleiro, posicaoA, posicoes);
+                        for (Posicao p : posicoes){
+                            Peca pp = tabuleiro.getCasa(p).getPeca();
+                            if (pp instanceof Rei){
+                                return true;
+                            }
                         }
                     }
                 }
