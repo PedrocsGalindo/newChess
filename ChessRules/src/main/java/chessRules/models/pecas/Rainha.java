@@ -26,44 +26,35 @@ public class Rainha implements Peca{
         // Todas as cima-direita
         newC = ic + 1;
         newL = il + 1;
-        while (newL < 8) {
-            if (newC < 8) {
-                posicoes.add(new Posicao(newL, newC));
-                newC++;
-            }
+        while (newL < 8 & newC < 8){
+            posicoes.add(new Posicao(newL, newC));
+            newC++;
             newL++;
         }
 
         // Todas as cima-esquerda
         newC = ic - 1;
         newL = il + 1;
-        while (newL < 8) {
-            if (newC >= 0) {
-                posicoes.add(new Posicao(newL, newC));
-                newC--;
-            }
+        while (newL < 8 & newC >= 0) {
+            posicoes.add(new Posicao(newL, newC));
+            newC--;
             newL++;
         }
         // Todas as baixo-esquerda
-
         newC = ic - 1;
         newL = il - 1;
-        while (newL >= 0) {
-            if (newC >= 0) {
-                posicoes.add(new Posicao(newL, newC));
-                newC--;
-            }
+        while (newL >= 0 & newC >= 0) {
+            posicoes.add(new Posicao(newL, newC));
+            newC--;
             newL--;
         }
 
         // Todas as baixo-direita
         newC = ic + 1;
         newL = il - 1;
-        while (newL >= 0) {
-            if (newC < 8) {
-                posicoes.add(new Posicao(newL, newC));
-                newC++;
-            }
+        while (newL >= 0 & newC < 8) {
+            posicoes.add(new Posicao(newL, newC));
+            newC++;
             newL--;
         }
 
