@@ -7,81 +7,101 @@ import chessRules.models.pecas.*;
 import chessRules.models.Posicao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 public class VerificadorDeJogadas {
 
     static final VerificadorDeEstados ve = new VerificadorDeEstados();
 
     private void verificarJogadaBispo(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Cor corPeca){
-        int il = posicao.getIndiceLinha();
-        int ic = posicao.getIndiceColuna();
-
         List<Posicao> posicoesToRemove = new ArrayList<>();
 
-        // cima-direita
-        int limite = Math.min((7-ic),(7-il));
-        for (int i = 1; i < limite; i++){
-            Casa casa = tabuleiro.getCasa(il + i,ic + i);
-            Peca peca = casa.getPeca();
-            if (peca != null){
-                if (peca.getColor() == corPeca){
-                    posicoesToRemove.add(casa.getPosicao());
-                }
-                for (int j = i + 1; j < limite; j++){
+        int newC,newL;
 
-                    posicoesToRemove.add(new Posicao(il + j,ic + j));
-                }
-                break;
-            }
-        }
-        limite = Math.min(ic,(7-il));
-        // cima-esquerda
-        for (int i = 1; i < limite; i++){
-            Casa casa = tabuleiro.getCasa(il + i,ic - i);
+        int ic = posicao.getIndiceColuna();
+        int il = posicao.getIndiceLinha();
+
+        // Todas as cima-direita
+        newC = ic + 1;
+        newL = il + 1;
+        while (newL < 8 & newC < 8){
+            Casa casa = tabuleiro.getCasa(newL,newC);
             Peca peca = casa.getPeca();
             if (peca != null){
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i + 1; j < limite; j++){
-                    posicoesToRemove.add(new Posicao(il + j,ic - j));
+                while (newL < 8 & newC < 8){
+                    posicoesToRemove.add(new Posicao(newL,newC));
+                    newC++;
+                    newL++;
                 }
-                break;
             }
+            newC++;
+            newL++;
         }
-        limite = Math.min(ic,il);
-        // baixo-esquerda
-        for (int i = 1; i < limite; i++){
-            Casa casa = tabuleiro.getCasa(il - i,ic - i);
+
+        // Todas as cima-esquerda
+        newC = ic - 1;
+        newL = il + 1;
+        while (newL < 8 & newC >= 0) {
+            Casa casa = tabuleiro.getCasa(newL,newC);
             Peca peca = casa.getPeca();
             if (peca != null){
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i + 1; j < limite; j++){
-                    posicoesToRemove.add(new Posicao(il - j,ic - j));
+                while (newL < 8 & newC >= 0){
+                    posicoesToRemove.add(new Posicao(newL,newC));
+                    newC--;
+                    newL++;
                 }
-                break;
             }
+            newC--;
+            newL++;
         }
-        limite = Math.min((7-ic),il);
-        // baixo-direita
-        for (int i = 1; i < limite; i++){
-            Casa casa = tabuleiro.getCasa(il - i,ic + i);
+        // Todas as baixo-esquerda
+
+        newC = ic - 1;
+        newL = il - 1;
+        while (newL >= 0 & newC >= 0) {
+            Casa casa = tabuleiro.getCasa(newL,newC);
             Peca peca = casa.getPeca();
             if (peca != null){
                 if (peca.getColor() == corPeca){
                     posicoesToRemove.add(casa.getPosicao());
                 }
-                for (int j = i + 1; j < limite; j++){
-                    posicoesToRemove.add(new Posicao(il - j,ic + j));
+                while (newL >= 0 & newC >= 0){
+                    posicoesToRemove.add(new Posicao(newL,newC));
+                    newC--;
+                    newL--;
                 }
-                break;
             }
+            newC--;
+            newL--;
         }
+
+        // Todas as baixo-direita
+        newC = ic + 1;
+        newL = il - 1;
+        while (newL >= 0 & newC < 8) {
+            Casa casa = tabuleiro.getCasa(newL,newC);
+            Peca peca = casa.getPeca();
+            if (peca != null){
+                if (peca.getColor() == corPeca){
+                    posicoesToRemove.add(casa.getPosicao());
+                }
+                while (newL >= 0 & newC < 8){
+                    posicoesToRemove.add(new Posicao(newL,newC));
+                    newC++;
+                    newL--;
+                }
+            }
+            newC++;
+            newL--;
+        }
+
         posicoes.removeAll(posicoesToRemove);
     }
     private void verificarJogadaRainha(Tabuleiro tabuleiro, List<Posicao> posicoes, Posicao posicao, Cor corPeca){
@@ -331,11 +351,7 @@ public class VerificadorDeJogadas {
 
         // Verificação se a jogada vai deixar em check
         List<Posicao> posicoesToRemove = new ArrayList<>();
-        System.out.println(posicoes);
         for (Posicao p: posicoes){
-            System.out.println(p);
-            System.out.println("\n \n\n");
-
             if (ve.makeCheck(tabuleiro, posicao, p)){
                 posicoesToRemove.add(p);
             }
@@ -344,8 +360,8 @@ public class VerificadorDeJogadas {
 
         return posicoes;
     }
-    public Map<Posicao, List<Posicao>> todasPossiveisJogadas(Tabuleiro tabuleiro, Cor cor){
-        Map<Posicao, List<Posicao>> possiveisJogadas = new HashMap<>();
+    public TreeMap<Posicao,List<Posicao>> todasPossiveisJogadas(Tabuleiro tabuleiro, Cor cor){
+        TreeMap<Posicao, List<Posicao>> possiveisJogadas = new TreeMap<>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Peca pecaA = tabuleiro.getCasa(i, j).getPeca();
@@ -353,8 +369,11 @@ public class VerificadorDeJogadas {
                     if (pecaA.getColor().equals(cor)) {
                         Posicao posicaoA = new Posicao(i, j);
                         List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
+                        System.out.println(pecaA + ": " + posicoes);
+
                         posicoes = verificarJogada(tabuleiro, posicaoA, posicoes);
                         possiveisJogadas.put(posicaoA, posicoes);
+
                     }
                 }
             }
