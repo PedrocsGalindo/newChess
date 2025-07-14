@@ -51,35 +51,30 @@ public class Peao implements Peca{
         int newC,newL;
         List<Posicao> posicoes = new ArrayList<>();
 
-
         int ic = posicao.getIndiceColuna();
         int il = posicao.getIndiceLinha();
 
-
         int[][] movimentos = {
             {1, 1}, {1, -1}, {1, 0},
-            {-1, 1}, {-1, 0}, {-1, -1}
         };
+        int mul, nl, nc;
 
-        if (this.fMove & this.cor == Cor.BRANCO){
-            posicoes.add(new Posicao(il + 2, ic));
+        if (this.cor == Cor.BRANCO) {
+            mul = 1;
+        } else {
+            mul = -1;
         }
-        if (this.fMove & this.cor == Cor.PRETO){
-            posicoes.add(new Posicao(il - 2, ic));
+        if (this.fMove){
+            posicoes.add(new Posicao(il + (2*mul), ic));
         }
-
-        // So passaria do limite de linha se chegasse no final, e quando chega, muda de peça 
-        for (int[] movimento : movimentos) {
-            newL = il + movimento[0];
-            newC = ic + movimento[1];
-
-            if(il > 0 & this.cor == Cor.BRANCO & (newC >= 0 && newC < 8)){
-                posicoes.add(new Posicao(newL, newC));
-            }
-            if(il < 0 & this.cor == Cor.PRETO & (newC >= 0 && newC < 8)){
-                posicoes.add(new Posicao(newL, newC));
+        for (int[] m: movimentos) {
+            nl = il + (m[0] * mul);
+            nc = ic + (m[1] * mul);
+            if ((nl < 8 & nl >= 0) & (nc < 8 & nc >= 0)) {
+                posicoes.add(new Posicao(nl, nc));
             }
         }
+
         return posicoes;
     }
     @Override
