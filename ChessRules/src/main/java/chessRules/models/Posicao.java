@@ -1,6 +1,6 @@
 package chessRules.models;
 
-public class Posicao{
+public class Posicao implements Comparable<Posicao>{
     public final int linha; //{1,2,3,4,5,6,7,8}
     public final char coluna; // {'a','b','c','d','e','f','g','h'}
 
@@ -41,7 +41,15 @@ public class Posicao{
         Posicao outro = (Posicao)obj;
         return this.linha == outro.linha && this.coluna == outro.coluna;
     }
-
+    public int compareTo(Posicao o) {
+        if (this.getIndiceLinha() < o.getIndiceLinha()){
+            return -1;
+        } else if (this.getIndiceLinha() > o.getIndiceLinha()){
+            return 1;
+        } else {
+            return this.getIndiceColuna() - o.getIndiceColuna();
+        }
+    }
     @Override
     public String toString() {
         return "" + this.linha + this.coluna;
