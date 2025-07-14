@@ -28,7 +28,6 @@ public class VerificadorDeEstados {
          *  true -> if play made check
          */
         Tabuleiro tabuleiroAux = tabuleiro.clone();
-        System.out.println(tabuleiro.getCasa(p).toString());
         Cor corAnalisada = tabuleiroAux.getCasa(p).getPeca().getColor();
         tabuleiroAux.moverPeca(p, np);
 
@@ -46,12 +45,6 @@ public class VerificadorDeEstados {
                 Peca pecaA = tabuleiro.getCasa(i, j).getPeca();
                 if (pecaA != null){
                     if (! pecaA.getColor().equals(cor)){
-                        System.out.println("Peça adversaria:");
-                        System.out.println(pecaA);
-                        System.out.print(i);
-                        System.out.print(j);
-                        System.out.println("\n");
-
                         Posicao posicaoA = new Posicao(i, j);
                         List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
                         posicoes = vj.verificarPecasNoCaminho(tabuleiro, posicaoA, posicoes);

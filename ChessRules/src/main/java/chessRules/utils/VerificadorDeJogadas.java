@@ -369,8 +369,6 @@ public class VerificadorDeJogadas {
                     if (pecaA.getColor().equals(cor)) {
                         Posicao posicaoA = new Posicao(i, j);
                         List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
-                        System.out.println(pecaA + ": " + posicoes);
-
                         posicoes = verificarJogada(tabuleiro, posicaoA, posicoes);
                         possiveisJogadas.put(posicaoA, posicoes);
 

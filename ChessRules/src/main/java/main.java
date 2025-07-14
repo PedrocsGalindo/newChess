@@ -1,12 +1,10 @@
 import chessRules.models.Partida;
 import chessRules.models.Posicao;
-import chessRules.models.Tabuleiro;
 import chessRules.models.pecas.Cor;
 import chessRules.utils.VerificadorDeJogadas;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 public class main {
     public static void main(String[] args) {
@@ -14,8 +12,7 @@ public class main {
         Partida p1 = new Partida();
         try {
             VerificadorDeJogadas vj = new VerificadorDeJogadas();
-            Map<Posicao, List<Posicao>> jogadas = vj.todasPossiveisJogadas(p1.getTabuleiro(), Cor.BRANCO);
-            System.out.println(jogadas);
+            TreeMap<Posicao, List<Posicao>> jogadas = vj.todasPossiveisJogadas(p1.getTabuleiro(), Cor.PRETO);
         } catch (Exception e) {
             e.printStackTrace();
         }
