@@ -1,8 +1,10 @@
 package chessRules.controllers;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import chessRules.dtos.JogadaRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +24,7 @@ public class VerificadorDeJogadasController {
     VerificadorDeJogadasController() {}
     
     @GetMapping("/ChesseRules/TodasJogadasPossiveis")
-    Map<Posicao, List<Posicao>> all(@RequestBody JogadaPossiveisRequest request) {
+    TreeMap<String,List<String>> all(@RequestBody JogadaPossiveisRequest request) {
         /*
         Exemplo of request:
             {
@@ -32,14 +34,24 @@ public class VerificadorDeJogadasController {
             }
 
         Exemplo of return:
-            {"mensage": [{}]
+            {"1b": ["5c", "6d"],
+             "3d" : ["2a"]
             }
         */
-        return vj.todasPossiveisJogadas(request.getTabuleiro(), request.getCor());
+        var jogadas = vj.todasPossiveisJogadas(request.getTabuleiro(), request.getCor());
+        TreeMap<String, List<String>> resposta = new TreeMap<>();
+        for (Map.Entry<Posicao, List<Posicao>> entry : jogadas.entrySet()) {
+            String chave = entry.getKey().toString();
+            List<String> valores = entry.getValue().stream()
+                    .map(Posicao::toString)
+                    .toList();
+            resposta.put(chave, valores);
+        }
+        return resposta;
     }
 
     @GetMapping("/ChesseRules/JogadasPossiveis")
-    List<Posicao> all(@RequestBody JogadaRequest request) {
+    List<String> all(@RequestBody JogadaRequest request) {
         /*
         Exemplo of request:
             {
@@ -52,6 +64,11 @@ public class VerificadorDeJogadasController {
             {"mensage": [{}]
             }
         */
-        return vj.verificarJogada(request.getTabuleiro(), request.getPosicao());
+        var jogadas = vj.verificarJogada(request.getTabuleiro(), request.getPosicao());
+        List<String> resposta = new ArrayList<>();
+        for (Posicao p: jogadas){
+            resposta.add(p.toString());
+        }
+        return resposta;
     }
 }
