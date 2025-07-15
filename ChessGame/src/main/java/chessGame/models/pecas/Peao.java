@@ -17,33 +17,30 @@ public class Peao implements Peca{
         * en passant: pode ser capturado pelo peao adversario após andar duas casas. - ok / não é responsabilidade da classe
      */
     final Cor cor;
-    private Boolean fMove;
     private int moveCount = 0;
 
     // Contrutor supõe que seja a primeira jogada
     public Peao(Cor cor){
         this.cor = cor;
-        this.fMove = true;
     }
-    // Partida personalizada.
-    public Peao(Boolean fMove, Cor cor){
-        this.cor = cor;
-        this.fMove = fMove;
-    }
+
     public Cor getColor(){
         return this.cor;
     }
-    public Boolean getFMove(){
-        return this.fMove;
+    public Boolean getFMove(Posicao p){
+        if (p.getIndiceLinha() == 1 & this.cor == Cor.BRANCO){
+            return true;
+        } else if (p.getIndiceLinha() == 6 & this.cor == Cor.PRETO){
+            return true;
+        } else {
+            return false;
+        }
     }
     public int getMoveCount(){
         return this.moveCount;
     }
     public void increseMoveCount(){
         this.moveCount += 1;
-    }
-    public void fMoveToFalse(){
-        this.fMove = false;
     }
 
     // Não é responsabildiade de classe da peca verificar se tem outra peça no caminho
@@ -64,7 +61,7 @@ public class Peao implements Peca{
         } else {
             mul = -1;
         }
-        if (this.fMove){
+        if (getFMove(posicao)){
             posicoes.add(new Posicao(il + (2*mul), ic));
         }
         for (int[] m: movimentos) {
