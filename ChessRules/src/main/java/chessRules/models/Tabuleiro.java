@@ -29,7 +29,7 @@ public class Tabuleiro implements Cloneable {
         for (String pp : posicaoPecas){
             corPeca = pp.charAt(0);
             peca = pp.charAt(1);
-            linha = pp.charAt(2);
+            linha = Character.getNumericValue(pp.charAt(2));
             coluna = pp.charAt(3);
             Posicao p = new Posicao(linha, coluna);
             l = p.getIndiceLinha();
