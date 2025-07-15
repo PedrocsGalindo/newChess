@@ -1,6 +1,7 @@
 package chessGame.models;
 
 import chessGame.models.pecas.*;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class Tabuleiro implements Cloneable {
         for (String pp : posicaoPecas){
             corPeca = pp.charAt(0);
             peca = pp.charAt(1);
-            linha = pp.charAt(2);
+            linha = Character.getNumericValue(pp.charAt(2));
             coluna = pp.charAt(3);
             Posicao p = new Posicao(linha, coluna);
             l = p.getIndiceLinha();
@@ -50,10 +51,6 @@ public class Tabuleiro implements Cloneable {
         getCasa(destino).setPeca(p);
         getCasa(origem).setPeca(null);
 
-        if (p instanceof Peao){
-            ((Peao) p).increseMoveCount();
-            ((Peao) p).fMoveToFalse();
-        }
     }
     public void inicializar() {
         Cor cor_preta = Cor.PRETO;
@@ -100,7 +97,8 @@ public class Tabuleiro implements Cloneable {
         }
         return tabuleiro.toString();
     }
-    public List<String> toJson(){
+    @JsonValue
+    public List<String> asList() {
         List<String> tabuleiro = new ArrayList<>();
         for (int i = 7; i >= 0; i--){
             for (int j = 7; j >= 0; j--){
