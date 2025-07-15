@@ -9,8 +9,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
+        ex.printStackTrace();
         return ResponseEntity
                 .badRequest()
                 .body("Erro: " + ex.getMessage());
+
     }
 }
