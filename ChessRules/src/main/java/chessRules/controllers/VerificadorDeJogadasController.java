@@ -21,7 +21,7 @@ public class VerificadorDeJogadasController {
 
     VerificadorDeJogadasController() {}
     
-    @GetMapping("/TodasJogadasPossiveis")
+    @GetMapping("/ChesseRules/TodasJogadasPossiveis")
     Map<Posicao, List<Posicao>> all(@RequestBody JogadaPossiveisRequest request) {
         /*
         Exemplo of request:
@@ -38,7 +38,7 @@ public class VerificadorDeJogadasController {
         return vj.todasPossiveisJogadas(request.getTabuleiro(), request.getCor());
     }
 
-    @GetMapping("/JogadasPossiveis")
+    @GetMapping("/ChesseRules/JogadasPossiveis")
     List<Posicao> all(@RequestBody JogadaRequest request) {
         /*
         Exemplo of request:
