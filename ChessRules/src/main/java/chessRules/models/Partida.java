@@ -1,9 +1,9 @@
-package chessGame.models;
+package chessRules.models;
 
-import chessGame.models.pecas.*;
-import chessGame.exceptions.KingInDangerException;
-import chessGame.utils.VerificadorDeEstados; // api
-import chessGame.utils.VerificadorDeJogadas; // api
+import chessRules.models.pecas.*;
+import chessRules.exceptions.KingInDangerException;
+import chessRules.utils.VerificadorDeEstados; // api
+import chessRules.utils.VerificadorDeJogadas; // api
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ public class Partida {
         List<Posicao> posicoes = vj.verificarJogada(this.tabuleiro, posicao);
         return posicoes;
     }
+    // responsabilidade do front chamar o serviço correto
     public void moverPecaPromover(Posicao posicao, Posicao novaPosicao, char novaPeca){
         Peca peca = this.tabuleiro.getCasa(posicao).getPeca();
         switch(novaPeca){
@@ -47,6 +48,9 @@ public class Partida {
         Peca peca = this.tabuleiro.getCasa(posicao).getPeca();
         this.tabuleiro.getCasa(posicao).setPeca(null);
         this.tabuleiro.getCasa(novaPosicao).setPeca(peca);
+        if (peca instanceof Peao){
+            ((Peao) peca).increseMoveCount();
+        }
 
         this.estado = ve.verificarEstado(tabuleiro, this.jogadorVez);
     }
