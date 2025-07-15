@@ -1,6 +1,7 @@
 package chessRules.models;
 
 import chessRules.models.pecas.*;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,8 @@ public class Tabuleiro implements Cloneable {
         }
         return tabuleiro.toString();
     }
-    public List<String> toJson(){
+    @JsonValue
+    public List<String> asList() {
         List<String> tabuleiro = new ArrayList<>();
         for (int i = 7; i >= 0; i--){
             for (int j = 7; j >= 0; j--){

@@ -1,5 +1,7 @@
 package chessRules.models;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public class Posicao implements Comparable<Posicao>{
     public final int linha; //{1,2,3,4,5,6,7,8}
     public final char coluna; // {'a','b','c','d','e','f','g','h'}
@@ -33,6 +35,10 @@ public class Posicao implements Comparable<Posicao>{
     public int getIndiceColuna() {
         return ((int)coluna)-97;
     }
+    @JsonValue
+    public String asString() {
+        return "" + this.linha + this.coluna;
+    }
     @Override
     public boolean equals(Object obj){
         if (this == obj) return true;
@@ -52,9 +58,6 @@ public class Posicao implements Comparable<Posicao>{
     }
     @Override
     public String toString() {
-        return "" + this.linha + this.coluna;
-    }
-    public String toJson() {
         return "" + this.linha + this.coluna;
     }
 
