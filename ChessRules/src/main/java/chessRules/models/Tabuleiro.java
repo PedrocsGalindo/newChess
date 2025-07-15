@@ -46,8 +46,14 @@ public class Tabuleiro implements Cloneable {
     }
 
     public void moverPeca(Posicao origem, Posicao destino) {
-        getCasa(destino).setPeca(getCasa(origem).getPeca());
+        Peca p = getCasa(origem).getPeca();
+        getCasa(destino).setPeca(p);
         getCasa(origem).setPeca(null);
+
+        if (p instanceof Peao){
+            ((Peao) p).increseMoveCount();
+            ((Peao) p).fMoveToFalse();
+        }
     }
     public void inicializar() {
         Cor cor_preta = Cor.PRETO;

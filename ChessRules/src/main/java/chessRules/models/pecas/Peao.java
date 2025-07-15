@@ -42,8 +42,8 @@ public class Peao implements Peca{
     public void increseMoveCount(){
         this.moveCount += 1;
     }
-    public void increseMoveCount(Boolean fmove){
-        this.fMove = fmove;
+    public void fMoveToFalse(){
+        this.fMove = false;
     }
 
     // Não é responsabildiade de classe da peca verificar se tem outra peça no caminho

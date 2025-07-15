@@ -4,6 +4,7 @@ package chessRules.controllers;
 import java.util.List;
 import java.util.Map;
 
+import chessRules.dtos.JogadaRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import chessRules.models.Posicao;
 import chessRules.utils.VerificadorDeJogadas;
-import chessRules.dtos.JogadaRequest;
+import chessRules.dtos.JogadaPossiveisRequest;
 
 @RestController
 public class VerificadorDeJogadasController {
@@ -20,8 +21,8 @@ public class VerificadorDeJogadasController {
 
     VerificadorDeJogadasController() {}
     
-    @GetMapping("/JogadasPossiveis")
-    Map<Posicao, List<Posicao>> all(@RequestBody JogadaRequest request) {
+    @GetMapping("/TodasJogadasPossiveis")
+    Map<Posicao, List<Posicao>> all(@RequestBody JogadaPossiveisRequest request) {
         /*
         Exemplo of request:
             {
@@ -35,5 +36,22 @@ public class VerificadorDeJogadasController {
             }
         */
         return vj.todasPossiveisJogadas(request.getTabuleiro(), request.getCor());
+    }
+
+    @GetMapping("/JogadasPossiveis")
+    List<Posicao> all(@RequestBody JogadaRequest request) {
+        /*
+        Exemplo of request:
+            {
+                "Tabuleiro": ["WR1a", "WN2a","WB3a", ...]
+                },
+                "Posicao": "1a"
+            }
+
+        Exemplo of return:
+            {"mensage": [{}]
+            }
+        */
+        return vj.verificarJogada(request.getTabuleiro(), request.getPosicao());
     }
 }

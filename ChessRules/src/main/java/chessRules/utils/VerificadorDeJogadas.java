@@ -343,9 +343,11 @@ public class VerificadorDeJogadas {
         return posicoes;
     }
 
-    public List<Posicao>  verificarJogada(Tabuleiro tabuleiro, Posicao posicao, List<Posicao> posicoes) {
+    public List<Posicao>  verificarJogada(Tabuleiro tabuleiro, Posicao posicao) {
         Casa casa = tabuleiro.getCasa(posicao);
         Peca peca = casa.getPeca();
+
+        List<Posicao> posicoes = peca.possiveis_movimentos(posicao);
 
         posicoes = verificarPecasNoCaminho(tabuleiro,posicao, posicoes);
 
@@ -368,8 +370,7 @@ public class VerificadorDeJogadas {
                 if (pecaA != null){
                     if (pecaA.getColor().equals(cor)) {
                         Posicao posicaoA = new Posicao(i, j);
-                        List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
-                        posicoes = verificarJogada(tabuleiro, posicaoA, posicoes);
+                        List<Posicao> posicoes = verificarJogada(tabuleiro, posicaoA);
                         possiveisJogadas.put(posicaoA, posicoes);
 
                     }

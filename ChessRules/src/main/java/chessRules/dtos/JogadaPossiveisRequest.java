@@ -1,21 +1,21 @@
 package chessRules.dtos;
 
-import chessRules.models.Posicao;
 import chessRules.models.Tabuleiro;
 import chessRules.models.pecas.Cor;
 
-public class JogadaRequest {
+public class JogadaPossiveisRequest {
     private Tabuleiro tabuleiro;
-    private Posicao posicao;
+    private Cor cor;
 
-    public JogadaRequest(){
-
+    public JogadaPossiveisRequest(){
+        
     }
 
     public Tabuleiro getTabuleiro() {
         return tabuleiro;
     }
-    public Posicao getPosicao() {
-        return posicao;
+    public Cor getCor() {
+        return cor;
     }
 }
+

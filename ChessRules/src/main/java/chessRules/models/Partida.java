@@ -22,10 +22,7 @@ public class Partida {
     }
 
     public List<Posicao> possiveisMovimentos(Posicao posicao){
-        Casa casa = tabuleiro.getCasa(posicao);
-        Peca peca = casa.getPeca();
-        List<Posicao> posicoes = peca.possiveis_movimentos(posicao);
-        posicoes = vj.verificarJogada(this.tabuleiro, posicao, posicoes);
+        List<Posicao> posicoes = vj.verificarJogada(this.tabuleiro, posicao);
         return posicoes;
     }
     public void moverPecaPromover(Posicao posicao, Posicao novaPosicao, char novaPeca){

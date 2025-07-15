@@ -74,8 +74,7 @@ public class VerificadorDeEstados {
                 Peca pecaA = tabuleiro.getCasa(i, j).getPeca();
                 if (pecaA.getColor().equals(cor)){
                     Posicao posicaoA = new Posicao(i, j);
-                    List<Posicao> posicoes = pecaA.possiveis_movimentos(posicaoA);
-                    posicoes = vj.verificarJogada(tabuleiro, posicaoA, posicoes);
+                    List<Posicao> posicoes = vj.verificarJogada(tabuleiro, posicaoA);
                     if (! posicoes.isEmpty()){
                         return false;
                     }
