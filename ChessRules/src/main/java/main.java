@@ -13,7 +13,7 @@ public class main {
         try {
             VerificadorDeJogadas vj = new VerificadorDeJogadas();
             TreeMap<Posicao, List<Posicao>> jogadas = vj.todasPossiveisJogadas(p1.getTabuleiro(), Cor.PRETO);
-            System.out.println(jogadas);
+            System.out.println(p1.getTabuleiro().asList());
         } catch (Exception e) {
             e.printStackTrace();
         }
