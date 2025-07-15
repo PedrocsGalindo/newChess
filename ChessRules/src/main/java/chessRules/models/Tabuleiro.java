@@ -53,7 +53,6 @@ public class Tabuleiro implements Cloneable {
 
         if (p instanceof Peao){
             ((Peao) p).increseMoveCount();
-            ((Peao) p).fMoveToFalse();
         }
     }
     public void inicializar() {

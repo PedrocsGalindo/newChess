@@ -259,7 +259,7 @@ public class VerificadorDeJogadas {
             }
         } else {
             Posicao p = new Posicao(l-2, c);
-            if (((Peao) peca).getFMove() & tabuleiro.getCasa(p).getPeca() != null){
+            if (((Peao) peca).getFMove(posicao) & tabuleiro.getCasa(p).getPeca() != null){
                 posicoes.removeIf(element -> element.equals(p));
             }
         }
@@ -318,7 +318,7 @@ public class VerificadorDeJogadas {
             }
         } else {
             Posicao p = new Posicao(l+2, c);
-            if (((Peao) peca).getFMove() & tabuleiro.getCasa(p).getPeca() != null){
+            if (((Peao) peca).getFMove(posicao) & tabuleiro.getCasa(p).getPeca() != null){
                 posicoes.removeIf(element -> element.equals(p));
             }
         }
@@ -371,8 +371,9 @@ public class VerificadorDeJogadas {
                     if (pecaA.getColor().equals(cor)) {
                         Posicao posicaoA = new Posicao(i, j);
                         List<Posicao> posicoes = verificarJogada(tabuleiro, posicaoA);
-                        possiveisJogadas.put(posicaoA, posicoes);
-
+                        if (! posicoes.isEmpty()){
+                            possiveisJogadas.put(posicaoA, posicoes);
+                        }
                     }
                 }
             }
