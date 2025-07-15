@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import chessRules.dtos.JogadaRequest;
+import chessRules.dtos.JogadasPossiveisRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import chessRules.models.Posicao;
 import chessRules.utils.VerificadorDeJogadas;
-import chessRules.dtos.JogadaPossiveisRequest;
+import chessRules.dtos.TabuleiroECorRequest;
 
 @RestController
 public class VerificadorDeJogadasController {
@@ -23,8 +23,8 @@ public class VerificadorDeJogadasController {
 
     VerificadorDeJogadasController() {}
     
-    @GetMapping("/ChesseRules/TodasJogadasPossiveis")
-    TreeMap<String,List<String>> all(@RequestBody JogadaPossiveisRequest request) {
+    @GetMapping("/ChessRules/TodasJogadasPossiveis")
+    TreeMap<String,List<String>> all(@RequestBody TabuleiroECorRequest request) {
         /*
         Exemplo of request:
             {
@@ -50,14 +50,13 @@ public class VerificadorDeJogadasController {
         return resposta;
     }
 
-    @GetMapping("/ChesseRules/JogadasPossiveis")
-    List<String> all(@RequestBody JogadaRequest request) {
+    @GetMapping("/ChessRules/JogadasPossiveis")
+    List<String> all(@RequestBody JogadasPossiveisRequest request) {
         /*
         Exemplo of request:
             {
-                "Tabuleiro": ["WR1a", "WN2a","WB3a", ...]
-                },
-                "Posicao": "1a"
+                "tabuleiro": ["WR1a", "WN2a","WB3a", ...],
+                "posicao": "1a"
             }
 
         Exemplo of return:
