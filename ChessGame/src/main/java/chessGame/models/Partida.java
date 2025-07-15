@@ -1,9 +1,9 @@
-package chessRules.models;
+package chessGame.models;
 
-import chessRules.models.pecas.*;
-import chessRules.exceptions.KingInDangerException;
-import chessRules.utils.VerificadorDeEstados;
-import chessRules.utils.VerificadorDeJogadas;
+import chessGame.models.pecas.*;
+import chessGame.exceptions.KingInDangerException;
+import chessGame.utils.VerificadorDeEstados; // api
+import chessGame.utils.VerificadorDeJogadas; // api
 
 import java.util.List;
 
