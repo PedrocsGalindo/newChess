@@ -3,15 +3,15 @@ package chessGame.dtos;
 import java.util.List;
 
 public class JogadaPromocaoRequest {
-    private List<String> tabuleiro;
+    private int id;
     private String posicao;
     private String novaPosicao;
     private char novaPeca;
 
     public JogadaPromocaoRequest() {
     }
-    public List<String> getTabuleiro() {
-        return this.tabuleiro;
+    public int getId() {
+        return this.id;
     }
     public String getNovaPosicao() {
         return this.novaPosicao;

@@ -3,17 +3,17 @@ package chessGame.dtos;
 import java.util.List;
 
 public class JogadaRequest {
-    private List<String> tabuleiro;
+    private int id;
     private String posicao;
     private String novaPosicao;
 
-    public JogadaRequest(List<String> tabuleiro, String posicao, String novaPosicao) {
-        this.tabuleiro = tabuleiro;
+    public JogadaRequest(int id, String posicao, String novaPosicao) {
+        this.id = id;
         this.posicao = posicao;
         this.novaPosicao = novaPosicao;
     }
-    public List<String> getTabuleiro() {
-        return this.tabuleiro;
+    public int getId() {
+        return this.id;
     }
     public String getNovaPosicao() {
         return this.novaPosicao;

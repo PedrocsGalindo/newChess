@@ -3,11 +3,11 @@ package chessGame.dtos;
 import java.util.List;
 
 public class VerificarEstadoRequest {
-    private List<String> tabuleiro;
+    private int id;
     private String cor;
 
-    public List<String> getTabuleiro() {
-        return tabuleiro;
+    public int getId() {
+        return this.id;
     }
     public String getCor() {
         return cor;

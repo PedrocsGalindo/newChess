@@ -5,27 +5,36 @@ import chessGame.APIs.ServicoChessBot;
 import chessGame.models.pecas.*;
 import chessGame.exceptions.KingInDangerException;
 
+import java.util.TreeMap;
+
 import java.util.List;
 
 public class GerenciadorPartida {
     static final ServicoChessBot sb = new ServicoChessBot();
     static final ServicoChessRules sr = new ServicoChessRules();
+    static TreeMap<Integer, Tabuleiro> tabuleiros = new TreeMap<>();
 
 
-    public static List<String> criarPartida(){
-        Tabuleiro t = new Tabuleiro();
-        t.inicializar();
-        return t.asList();
+    public static String criarPartida(int id){
+        try{
+            Tabuleiro t = new Tabuleiro();
+            t.inicializar();
+            tabuleiros.put(id, t);
+            return "Sucesso";
+        } catch (Exception e) {
+            return "Erro: " + e.getMessage();
+        }
+
     }
-    public static String verificarEstado(List<String> tabuleiro, String cor) throws Exception {
-        return sr.verificarEstado(tabuleiro, cor);
+    public static String verificarEstado(int id, String cor) throws Exception {
+        return sr.verificarEstado(tabuleiros.get(id).asList(), cor);
     }
-    public static List<String> jogadasPossiveis(List<String> tabuleiro, String posicao){
-        return sr.jogadasPossiveis(tabuleiro, posicao);
+    public static List<String> jogadasPossiveis(int id, String posicao){
+        return sr.jogadasPossiveis(tabuleiros.get(id).asList(), posicao);
     }
     // responsabilidade do front chamar o serviço correto
-    public static List<String> moverPecaPromover(List<String> tabuleiro, String posicao, String novaPosicao, char novaPeca){
-        Tabuleiro t = new Tabuleiro(tabuleiro);
+    public static List<String> moverPecaPromover(int id, String posicao, String novaPosicao, char novaPeca){
+        Tabuleiro t = tabuleiros.get(id);
         Posicao p = new Posicao(posicao);
         Posicao np = new Posicao(novaPosicao);
         Peca peca = t.getCasa(p).getPeca();
@@ -43,11 +52,11 @@ public class GerenciadorPartida {
         t.getCasa(np).setPeca(peca);
         return t.asList();
     }
-    public static List<String> moverPeca(List<String> tabuleiro, String posicao, String novaPosicao) throws KingInDangerException{
+    public static List<String> moverPeca(int id, String posicao, String novaPosicao) throws KingInDangerException{
         // move a peça
         Posicao p = new Posicao(posicao);
         Posicao np = new Posicao(novaPosicao);
-        Tabuleiro t = new Tabuleiro(tabuleiro);
+        Tabuleiro t = tabuleiros.get(id);
         Peca peca = t.getCasa(p).getPeca();
         t.getCasa(p).setPeca(null);
         t.getCasa(np).setPeca(peca);

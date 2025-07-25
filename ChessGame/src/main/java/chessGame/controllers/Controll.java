@@ -1,5 +1,6 @@
 package chessGame.controllers;
 
+import chessGame.dtos.CriarPartidaRequest;
 import chessGame.dtos.JogadaPromocaoRequest;
 import chessGame.dtos.JogadaRequest;
 import chessGame.dtos.JogadasPossiveisRequest;
@@ -15,28 +16,26 @@ import java.util.List;
 @RestController
 public class Controll {
 
-    @PostMapping("/ChessGame/criarTabuleiro")
-    List<String> criarTabuleiro() {
+    @PostMapping("/ChessGame/criarPartida")
+    String criarPartida(@RequestBody CriarPartidaRequest request) {
         /*
         Exemplo of request:
             {
-                "Tabuleiro": ["WR1a", "WN2a","WB3a", ...]
-                },
-                "Cor": "BRANCO"
+                id: 1
             }
 
         Exemplo of return:
-            {["WR1a", "WN2a","WB3a", ...]}
+            sucedido
         */
-        return GerenciadorPartida.criarPartida();
+        return GerenciadorPartida.criarPartida(request.getId());
     }
     @PostMapping("/ChessGame/moverPeca")
     List<String> moverPeca(@RequestBody JogadaRequest request) throws KingInDangerException {
+        // Retornar apenas a peça movida e a sua posição atual 
         /*
         Exemplo of request:
             {
-                "tabuleiro": ["WR1a", "WN2a","WB3a", ...]
-                },
+                "id": 2,
                 "posicao": "2c",
                 "novaPosicao": "1c"
             }
@@ -44,14 +43,14 @@ public class Controll {
         Exemplo of return:
             {["WR1a", "WN2a","WB3a", ...]}
         */
-        return GerenciadorPartida.moverPeca(request.getTabuleiro(), request.getPosicao(), request.getNovaPosicao());
+        return GerenciadorPartida.moverPeca(request.getId(), request.getPosicao(), request.getNovaPosicao());
     }
     @PostMapping("/ChessGame/moverPecaPromocao")
     List<String> moverPecaPromocao(@RequestBody JogadaPromocaoRequest request) {
         /*
         Exemplo of request:
             {
-                "tabuleiro": ["WR1a", "WN2a","WB3a", ...]
+                "id": 2
                 },
                 "posicao": "2c",
                 "novaPosicao": "1c",
@@ -61,14 +60,14 @@ public class Controll {
         Exemplo of return:
             {["WR1a", "WN2a","WB3a", ...]}
         */
-        return GerenciadorPartida.moverPecaPromover(request.getTabuleiro(), request.getPosicao(), request.getNovaPosicao(), request.getNovaPeca());
+        return GerenciadorPartida.moverPecaPromover(request.getId(), request.getPosicao(), request.getNovaPosicao(), request.getNovaPeca());
     }
     @PostMapping("/ChessGame/verificarEstado")
     String verificarEstado(@RequestBody VerificarEstadoRequest request) throws Exception {
         /*
         Exemplo of request:
             {
-                "tabuleiro": ["WR1a", "WN2a","WB3a", ...]
+                "id": 3
                 },
                 "cor": "BRANCO"
             }
@@ -76,14 +75,14 @@ public class Controll {
         Exemplo of return:
             {"ANDAMENTO"}
         */
-        return GerenciadorPartida.verificarEstado(request.getTabuleiro(), request.getCor());
+        return GerenciadorPartida.verificarEstado(request.getId(), request.getCor());
     }
     @PostMapping("/ChessGame/jogadasPossiveis")
     List<String> jogadasPossiveis(@RequestBody JogadasPossiveisRequest request) {
         /*
         Exemplo of request:
             {
-                "tabuleiro": ["WR1a", "WN2a","WB3a", ...]
+                "id": 3
                 },
                 "posicao": "2c",
                 "novaPosicao": "1c",
@@ -93,6 +92,6 @@ public class Controll {
         Exemplo of return:
             {["2c", "2d","3c", ...]}
         */
-        return GerenciadorPartida.jogadasPossiveis(request.getTabuleiro(), request.getPosicao());
+        return GerenciadorPartida.jogadasPossiveis(request.getId(), request.getPosicao());
     }
 }
