@@ -1,6 +1,4 @@
-package chessGame.dtos;
-
-import java.util.List;
+package chessGame.dtos.requests;
 
 public class JogadasPossiveisRequest {
     private int id;

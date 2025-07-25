@@ -1,23 +1,29 @@
 package chessGame.controllers;
 
-import chessGame.dtos.CriarPartidaRequest;
-import chessGame.dtos.JogadaPromocaoRequest;
-import chessGame.dtos.JogadaRequest;
-import chessGame.dtos.JogadasPossiveisRequest;
-import chessGame.dtos.VerificarEstadoRequest;
+import chessGame.dtos.requests.CriarPartidaRequest;
+import chessGame.dtos.requests.JogadaPromocaoRequest;
+import chessGame.dtos.requests.JogadaRequest;
+import chessGame.dtos.requests.JogadasPossiveisRequest;
+import chessGame.dtos.requests.VerificarEstadoRequest;
+import chessGame.dtos.responses.Response;
 import chessGame.exceptions.KingInDangerException;
-import chessGame.models.GerenciadorPartida;
+import chessGame.service.GerenciadorPartidaAsync;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class Controll {
 
+    @Autowired
+    private GerenciadorPartidaAsync partidaService;
+    
     @PostMapping("/ChessGame/criarPartida")
-    String criarPartida(@RequestBody CriarPartidaRequest request) {
+    CompletableFuture<Response> criarPartida(@RequestBody CriarPartidaRequest request) {
         /*
         Exemplo of request:
             {
@@ -25,12 +31,14 @@ public class Controll {
             }
 
         Exemplo of return:
-            sucedido
+            {
+                msg: "Sucesso"
+            }
         */
-        return GerenciadorPartida.criarPartida(request.getId());
+        return partidaService.criarPartida(request.getId());
     }
     @PostMapping("/ChessGame/moverPeca")
-    List<String> moverPeca(@RequestBody JogadaRequest request) throws KingInDangerException {
+    CompletableFuture<Response> moverPeca(@RequestBody JogadaRequest request) throws KingInDangerException {
         // Retornar apenas a peça movida e a sua posição atual 
         /*
         Exemplo of request:
@@ -41,12 +49,14 @@ public class Controll {
             }
 
         Exemplo of return:
-            {["WR1a", "WN2a","WB3a", ...]}
+            {
+                msg : "Sucesso"
+            }
         */
-        return GerenciadorPartida.moverPeca(request.getId(), request.getPosicao(), request.getNovaPosicao());
+        return partidaService.moverPeca(request.getId(), request.getPosicao(), request.getNovaPosicao());
     }
     @PostMapping("/ChessGame/moverPecaPromocao")
-    List<String> moverPecaPromocao(@RequestBody JogadaPromocaoRequest request) {
+    CompletableFuture<Response> moverPecaPromocao(@RequestBody JogadaPromocaoRequest request) {
         /*
         Exemplo of request:
             {
@@ -58,12 +68,14 @@ public class Controll {
             }
 
         Exemplo of return:
-            {["WR1a", "WN2a","WB3a", ...]}
+            {
+                msg : "Sucesso"
+            }
         */
-        return GerenciadorPartida.moverPecaPromover(request.getId(), request.getPosicao(), request.getNovaPosicao(), request.getNovaPeca());
+        return partidaService.moverPecaPromover(request.getId(), request.getPosicao(), request.getNovaPosicao(), request.getNovaPeca());
     }
     @PostMapping("/ChessGame/verificarEstado")
-    String verificarEstado(@RequestBody VerificarEstadoRequest request) throws Exception {
+    CompletableFuture<String> verificarEstado(@RequestBody VerificarEstadoRequest request) throws Exception {
         /*
         Exemplo of request:
             {
@@ -73,25 +85,29 @@ public class Controll {
             }
 
         Exemplo of return:
-            {"ANDAMENTO"}
+            {
+                "msg": "ANDAMENTO"
+            }
         */
-        return GerenciadorPartida.verificarEstado(request.getId(), request.getCor());
+        return partidaService.verificarEstado(request.getId(), request.getCor());
     }
     @PostMapping("/ChessGame/jogadasPossiveis")
-    List<String> jogadasPossiveis(@RequestBody JogadasPossiveisRequest request) {
+    CompletableFuture<String> jogadasPossiveis(@RequestBody JogadasPossiveisRequest request) {
         /*
         Exemplo of request:
             {
-                "id": 3
-                },
-                "posicao": "2c",
-                "novaPosicao": "1c",
-                "novaPeca": 'K'
+                "id": 3,
+                "posicao": "2c"
             }
 
         Exemplo of return:
-            {["2c", "2d","3c", ...]}
+            {
+                "msg": [
+                    "4a",
+                    "3a"
+                ]
+            }
         */
-        return GerenciadorPartida.jogadasPossiveis(request.getId(), request.getPosicao());
+        return partidaService.jogadasPossiveis(request.getId(), request.getPosicao());
     }
 }

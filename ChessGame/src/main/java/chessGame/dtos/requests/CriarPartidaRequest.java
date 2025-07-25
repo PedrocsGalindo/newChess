@@ -1,4 +1,4 @@
-package chessGame.dtos;
+package chessGame.dtos.requests;
 
 public class CriarPartidaRequest {
     private int id;

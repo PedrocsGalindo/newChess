@@ -1,16 +1,12 @@
-package chessGame.dtos;
+package chessGame.dtos.requests;
 
-import java.util.List;
-
-public class JogadaRequest {
+public class JogadaPromocaoRequest {
     private int id;
     private String posicao;
     private String novaPosicao;
+    private char novaPeca;
 
-    public JogadaRequest(int id, String posicao, String novaPosicao) {
-        this.id = id;
-        this.posicao = posicao;
-        this.novaPosicao = novaPosicao;
+    public JogadaPromocaoRequest() {
     }
     public int getId() {
         return this.id;
@@ -20,5 +16,8 @@ public class JogadaRequest {
     }
     public String getPosicao() {
         return this.posicao;
+    }
+    public char getNovaPeca() {
+        return this.novaPeca;
     }
 }
