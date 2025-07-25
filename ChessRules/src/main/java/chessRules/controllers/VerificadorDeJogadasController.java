@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import chessRules.dtos.JogadasPossiveisRequest;
+import chessRules.dtos.requests.JogadasPossiveisRequest;
+import chessRules.dtos.responses.TodasJogadasPossiveisResponse;
+import chessRules.dtos.responses.jogadasPossiveisResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import chessRules.models.Posicao;
 import chessRules.utils.VerificadorDeJogadas;
-import chessRules.dtos.TabuleiroECorRequest;
+import chessRules.dtos.requests.TabuleiroECorRequest;
 
 @RestController
 public class VerificadorDeJogadasController {
@@ -24,7 +26,7 @@ public class VerificadorDeJogadasController {
     VerificadorDeJogadasController() {}
     
     @GetMapping("/ChessRules/TodasJogadasPossiveis")
-    TreeMap<String,List<String>> all(@RequestBody TabuleiroECorRequest request) {
+    TodasJogadasPossiveisResponse all(@RequestBody TabuleiroECorRequest request) {
         /*
         Exemplo of request:
             {
@@ -34,8 +36,17 @@ public class VerificadorDeJogadasController {
             }
 
         Exemplo of return:
-            {"1b": ["5c", "6d"],
-             "3d" : ["2a"]
+            {
+                "msg": {
+                    "7a": [
+                        "5a",
+                        "6a"
+                    ],
+                    "7b": [
+                        "5b",
+                        "6b"
+                    ]
+                }
             }
         */
         var jogadas = vj.todasPossiveisJogadas(request.getTabuleiro(), request.getCor());
@@ -47,11 +58,12 @@ public class VerificadorDeJogadasController {
                     .toList();
             resposta.put(chave, valores);
         }
-        return resposta;
+
+        return  new TodasJogadasPossiveisResponse(resposta);
     }
 
     @GetMapping("/ChessRules/JogadasPossiveis")
-    List<String> all(@RequestBody JogadasPossiveisRequest request) {
+    jogadasPossiveisResponse all(@RequestBody JogadasPossiveisRequest request) {
         /*
         Exemplo of request:
             {
@@ -60,7 +72,11 @@ public class VerificadorDeJogadasController {
             }
 
         Exemplo of return:
-            {"mensage": [{}]
+            {
+                "msg": [
+                    "4a",
+                    "3a"
+                ]
             }
         */
         var jogadas = vj.verificarJogada(request.getTabuleiro(), request.getPosicao());
@@ -68,6 +84,7 @@ public class VerificadorDeJogadasController {
         for (Posicao p: jogadas){
             resposta.add(p.toString());
         }
-        return resposta;
+
+        return new jogadasPossiveisResponse(resposta);
     }
 }

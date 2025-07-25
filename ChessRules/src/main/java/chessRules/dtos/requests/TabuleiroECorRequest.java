@@ -1,4 +1,4 @@
-package chessRules.dtos;
+package chessRules.dtos.requests;
 
 import chessRules.models.Tabuleiro;
 import chessRules.models.pecas.Cor;
