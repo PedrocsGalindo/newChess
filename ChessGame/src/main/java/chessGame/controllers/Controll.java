@@ -10,6 +10,7 @@ import chessGame.exceptions.KingInDangerException;
 import chessGame.service.GerenciadorPartidaAsync;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,22 @@ public class Controll {
 
     @Autowired
     private GerenciadorPartidaAsync partidaService;
-    
+
+    @GetMapping("/ChessGame/ultimaJogada")
+    CompletableFuture<Response> ultimaJogada(@RequestBody CriarPartidaRequest request) {
+        /*
+        Exemplo of request:
+            {
+                id: 1
+            }
+
+        Exemplo of return:
+            {
+                msg: "1c-2c"
+            }
+        */
+        return partidaService.getUltimaJogada(request.getId());
+    }
     @PostMapping("/ChessGame/criarPartida")
     CompletableFuture<Response> criarPartida(@RequestBody CriarPartidaRequest request) {
         /*
@@ -79,8 +95,7 @@ public class Controll {
         /*
         Exemplo of request:
             {
-                "id": 3
-                },
+                "id": 3,
                 "cor": "BRANCO"
             }
 
@@ -109,5 +124,22 @@ public class Controll {
             }
         */
         return partidaService.jogadasPossiveis(request.getId(), request.getPosicao());
+    }
+
+    @PostMapping("/ChessGame/jogadaBot")
+    CompletableFuture<String> jogadaBot(@RequestBody VerificarEstadoRequest request) {
+        /*
+        Exemplo of request:
+            {
+                "id": 3,
+                "cor": "BRANCA"
+            }
+
+        Exemplo of return:
+            {
+                "msg": "2c-3c"
+            }
+        */
+        return partidaService.jogadaBot(request.getId(), request.getCor());
     }
 }
