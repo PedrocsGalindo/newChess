@@ -24,20 +24,14 @@ public class VerificadorAsync {
 
     @Async
     public CompletableFuture<VerificarEstadoResponse> verificarEstado(String t, String c) {
-        Cor cor;
-        if (c.equals("BRANCO")){
-            cor = Cor.BRANCO;
-        } else if (c.equals("PRETO")){
-            cor = Cor.PRETO;
-        } else {
-            return  CompletableFuture.completedFuture(new VerificarEstadoResponse("mensagem de erro: PRETO ou BRANCO"));
-        }
+        Cor cor = Cor.fromString(c);
         String resultado = ve.verificarEstado(new Tabuleiro(t),cor);
         return CompletableFuture.completedFuture(new VerificarEstadoResponse(resultado));
     }
     @Async
-    public CompletableFuture<TodasJogadasPossiveisResponse> todasJogadasPossiveis(Tabuleiro t, Cor c) {
-        var jogadas = vj.todasPossiveisJogadas(t,c);
+    public CompletableFuture<TodasJogadasPossiveisResponse> todasJogadasPossiveis(String t, String c) {
+        Cor cor = Cor.fromString(c);
+        var jogadas = vj.todasPossiveisJogadas(new Tabuleiro(t),cor);
         TreeMap<String, List<String>> resposta = new TreeMap<>();
         for (Map.Entry<Posicao, List<Posicao>> entry : jogadas.entrySet()) {
             String chave = entry.getKey().toString();
@@ -49,8 +43,11 @@ public class VerificadorAsync {
         return CompletableFuture.completedFuture(new TodasJogadasPossiveisResponse(resposta));
     }
     @Async
-    public CompletableFuture<JogadasPossiveisResponse> jogadasPossiveis(Tabuleiro t, Posicao po) {
-        var jogadas = vj.verificarJogada(t,po);
+    public CompletableFuture<JogadasPossiveisResponse> jogadasPossiveis(String t, String pos) {
+        int linha = Character.getNumericValue(pos.charAt(2));
+        char coluna = pos.charAt(3);
+        Posicao po = new Posicao(linha, coluna);
+        var jogadas = vj.verificarJogada(new Tabuleiro(t),po);
         List<String> resposta = new ArrayList<>();
         for (Posicao p: jogadas){
             resposta.add(p.toString());

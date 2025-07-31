@@ -1,19 +1,14 @@
 package chessRules.controllers;
 
-import chessRules.dtos.requests.JogadasPossiveisRequest;
-import chessRules.dtos.requests.TabuleiroECorRequest;
 import chessRules.dtos.responses.JogadasPossiveisResponse;
 import chessRules.dtos.responses.TodasJogadasPossiveisResponse;
 import chessRules.dtos.responses.VerificarEstadoResponse;
 import chessRules.utils.VerificadorAsync;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -28,11 +23,9 @@ public class Controller {
             @RequestParam String cor) {
         /*
         Exemplo of request:
-            {
-                "Tabuleiro": "WR1a, WN2a,WB3a, ..."]
-                },
-                "Cor": "BRANCO"
-            }
+            parametros
+            tabuleiro = "WR1a, WN2a,WB3a, ..."
+            cor = "BRANCO"
 
         Exemplo of return:
             {
@@ -43,14 +36,14 @@ public class Controller {
     }
 
     @GetMapping("/ChessRules/jogadasPossiveis")
-    public CompletableFuture<JogadasPossiveisResponse> all(@RequestBody JogadasPossiveisRequest request) {
+    public CompletableFuture<JogadasPossiveisResponse> jogadasPossiveis(
+            @RequestParam String tabuleiro,
+            @RequestParam String pos) {
         /*
         Exemplo of request:
-            {
-                "Tabuleiro": ["WR1a", "WN2a","WB3a", ...]
-                },
-                "Cor": "BRANCO"
-            }
+            parametros
+            tabuleiro = "WR1a, WN2a,WB3a, ..."
+            pos = "5a"
 
         Exemplo of return:
             {
@@ -66,10 +59,12 @@ public class Controller {
                 }
             }
         */
-        return v.jogadasPossiveis(request.getTabuleiro(), request.getPosicao());
+        return v.jogadasPossiveis(tabuleiro, pos);
     }
     @GetMapping("/ChessRules/todasJogadasPossiveis")
-    public CompletableFuture<TodasJogadasPossiveisResponse> TodasJogadasPossiveis(@RequestBody TabuleiroECorRequest request) {
+    public CompletableFuture<TodasJogadasPossiveisResponse> todasJogadasPossiveis(
+            @RequestParam String tabuleiro,
+            @RequestParam String cor) {
         /*
         Exemplo of request:
             {
@@ -92,6 +87,6 @@ public class Controller {
                 }
             }
         */
-        return  v.todasJogadasPossiveis(request.getTabuleiro(), request.getCor());
+        return  v.todasJogadasPossiveis(tabuleiro, cor);
     }
 }
