@@ -43,7 +43,7 @@ public class Controll {
         /*
         Exemplo of request:
             {
-                id: 1
+                "id": 1
             }
 
         Exemplo of return:
@@ -90,7 +90,7 @@ public class Controll {
         */
         return partidaService.moverPecaPromover(request.getId(), request.getPosicao(), request.getNovaPosicao(), request.getNovaPeca());
     }
-    @PostMapping("/ChessGame/verificarEstado")
+    @GetMapping("/ChessGame/verificarEstado")
     CompletableFuture<String> verificarEstado(@RequestBody VerificarEstadoRequest request) throws Exception {
         /*
         Exemplo of request:

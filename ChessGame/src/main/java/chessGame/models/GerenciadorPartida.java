@@ -27,7 +27,12 @@ public class GerenciadorPartida {
         }
     }
     public static String verificarEstado(int id, String cor) {
-        return sr.verificarEstado(tabuleiros.get(id).asList(), cor);
+        Tabuleiro tabuleiro = tabuleiros.get(id);
+        if (tabuleiro != null) {
+            return sr.verificarEstado(tabuleiro.asList(), cor);
+        } else {
+            return "Erro: id não encontrado";
+        }
     }
     public static String jogadasPossiveis(int id, String posicao){
         return sr.jogadasPossiveis(tabuleiros.get(id).asList(), posicao);

@@ -23,8 +23,16 @@ public class VerificadorAsync {
     private final VerificadorDeJogadas vj = new VerificadorDeJogadas();
 
     @Async
-    public CompletableFuture<VerificarEstadoResponse> verificarEstado(Tabuleiro t, Cor c) {
-        String resultado = ve.verificarEstado(t,c);
+    public CompletableFuture<VerificarEstadoResponse> verificarEstado(String t, String c) {
+        Cor cor;
+        if (c.equals("BRANCO")){
+            cor = Cor.BRANCO;
+        } else if (c.equals("PRETO")){
+            cor = Cor.PRETO;
+        } else {
+            return  CompletableFuture.completedFuture(new VerificarEstadoResponse("mensagem de erro: PRETO ou BRANCO"));
+        }
+        String resultado = ve.verificarEstado(new Tabuleiro(t),cor);
         return CompletableFuture.completedFuture(new VerificarEstadoResponse(resultado));
     }
     @Async

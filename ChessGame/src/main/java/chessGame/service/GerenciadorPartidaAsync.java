@@ -24,6 +24,7 @@ public class GerenciadorPartidaAsync {
     @Async
     public CompletableFuture<String> verificarEstado(int id, String cor) throws Exception{
         String resultado = GerenciadorPartida.verificarEstado(id, cor);
+        System.out.println(resultado);
         return CompletableFuture.completedFuture(resultado);
     }
     @Async

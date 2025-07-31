@@ -7,10 +7,13 @@ import chessRules.dtos.responses.TodasJogadasPossiveisResponse;
 import chessRules.dtos.responses.VerificarEstadoResponse;
 import chessRules.utils.VerificadorAsync;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -20,11 +23,13 @@ public class Controller {
     private VerificadorAsync v;
 
     @GetMapping("/ChessRules/verificarEstado")
-    public CompletableFuture<VerificarEstadoResponse> verificarEstado(@RequestBody TabuleiroECorRequest request) {
+    public CompletableFuture<VerificarEstadoResponse> verificarEstado(
+            @RequestParam String tabuleiro,
+            @RequestParam String cor) {
         /*
         Exemplo of request:
             {
-                "Tabuleiro": ["WR1a", "WN2a","WB3a", ...]
+                "Tabuleiro": "WR1a, WN2a,WB3a, ..."]
                 },
                 "Cor": "BRANCO"
             }
@@ -34,7 +39,7 @@ public class Controller {
                 "msg": "ANDAMENTO"
             }
         */
-        return v.verificarEstado(request.getTabuleiro(), request.getCor());
+        return v.verificarEstado(tabuleiro, cor);
     }
 
     @GetMapping("/ChessRules/jogadasPossiveis")

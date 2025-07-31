@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.List;
 
 public class ServicoChessBot {
-    static String webService = "http://viacep.com.br/ws/";
+    static String webService = "http://localhost:8081";
     static int codigoSucesso = 200;
 
     public static String jogadaBot(List<String> tabuleiro, String cor) {
@@ -19,7 +19,7 @@ public class ServicoChessBot {
         try {
             URL url = new URL(urlParaChamada);
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
-            conexao.setRequestMethod("POST");
+            conexao.setRequestMethod("GET");
             conexao.setRequestProperty("Content-Type", "application/json");
             conexao.setDoOutput(true);
 

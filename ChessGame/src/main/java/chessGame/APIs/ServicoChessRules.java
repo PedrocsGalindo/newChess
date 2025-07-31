@@ -12,16 +12,17 @@ import java.util.List;
 
 public class ServicoChessRules {
     //ajeitar o https para porta correta
-    static String webService = "http://viacep.com.br/ws/";
+    static String webService = "http://localhost:8081";
     static int codigoSucesso = 200;
 
     public static String verificarEstado(List<String> tabuleiro, String cor) {
         String urlParaChamada = webService + "/ChessRules/verificarEstado";
 
+        System.out.println(urlParaChamada);
         try {
             URL url = new URL(urlParaChamada);
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
-            conexao.setRequestMethod("POST");
+            conexao.setRequestMethod("GET");
             conexao.setRequestProperty("Content-Type", "application/json");
             conexao.setDoOutput(true);
 
@@ -57,7 +58,7 @@ public class ServicoChessRules {
         try {
             URL url = new URL(urlParaChamada);
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
-            conexao.setRequestMethod("POST");
+            conexao.setRequestMethod("GET");
             conexao.setRequestProperty("Content-Type", "application/json");
             conexao.setDoOutput(true);
 
