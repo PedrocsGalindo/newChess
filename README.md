@@ -1,19 +1,29 @@
 # newChess
-Sistema distribuido de xadrez 
 
-📦 regras_xadrez/
-   ├── get_valid_moves()
-   ├── is_checkmate()
-   └── aplicar_jogada()
+Sistema distribuído de xadrez
 
-📦 game-service/
-   └── usa regras_xadrez
+---
 
-📦 bot-service/
-   └── usa regras_xadrez + algoritmo minimax
+## Estrutura dos módulos
 
-Rotas:
-   └── Chat:
-      └── /ws/{match_id}/{player_id}   (Abre coneção com o chat via web socket. Ex: ws://localhost:8000/ws/match1/player2)
-   └── Match Finder:
-      └──
+📦 **regras_xadrez/**  
+- `get_valid_moves()`  
+- `is_checkmate()`  
+- `aplicar_jogada()`
+
+📦 **game-service/**  
+- Usa `regras_xadrez`
+
+📦 **bot-service/**  
+- Usa `regras_xadrez` + algoritmo minimax
+
+---
+
+## Rotas da API
+
+### Chat  
+- **WebSocket:** `/ws/{match_id}/{player_id}`  
+  Exemplo: `ws://localhost:8000/ws/match1/player2`  
+  (Abre conexão com o chat via WebSocket)
+
+### Match Finder  
