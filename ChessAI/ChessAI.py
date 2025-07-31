@@ -3,11 +3,11 @@ from pydantic import BaseModel
 import requests
 import copy
 
-RULES_SERVER = "http://localhost:8080"  # URL do módulo Java/Spring
+RULES_SERVER = "http://localhost:8080"
 
 class IARequest(BaseModel):
-    tabuleiro: list[str]
-    cor: str
+    tabuleiro: list[str]  # Lista de strings como ["WR1a", "WN2a", ...]
+    cor: str              # "BRANCO" ou "PRETO"
 
 class IAResponse(BaseModel):
     origem: str
@@ -16,16 +16,16 @@ class IAResponse(BaseModel):
 app = FastAPI(title="Chess AI Service")
 
 PIECE_VALUES = {
-    "P": 1,
-    "N": 3,
-    "B": 3,
-    "R": 5,
-    "Q": 9,
-    "K": 1000
+    "P": 1,    # Peão
+    "N": 3,    # Cavalo
+    "B": 3,    # Bispo
+    "R": 5,    # Torre
+    "Q": 9,    # Rainha
+    "K": 1000  # Rei
 }
 
 def evaluate_position(tabuleiro: list[str], cor: str) -> int:
-    """Avalia o tabuleiro com base no valor do material."""
+    """Avalia o tabuleiro pelo valor do material."""
     score = 0
     for piece in tabuleiro:
         color = piece[0]  # 'W' ou 'B'
@@ -37,8 +37,60 @@ def evaluate_position(tabuleiro: list[str], cor: str) -> int:
             score -= valor
     return score if cor == "BRANCO" else -score
 
+
+def opponent(cor: str) -> str:
+    return "PRETO" if cor == "BRANCO" else "BRANCO"
+
+
+def get_all_moves(tabuleiro: list[str], cor: str) -> dict:
+    """
+    Consulta o módulo de regras para obter todas as jogadas possíveis.
+    Retorna dict {origem: [destinos]}.
+    """
+    resp = requests.get(
+        f"{RULES_SERVER}/ChessRules/todasJogadasPossiveis",
+        json={"tabuleiro": tabuleiro, "cor": cor}
+    )
+    resp.raise_for_status()
+    return resp.json().get("msg", {})
+
+
+def simulate_move(tabuleiro: list[str], origem: str, destino: str) -> list[str]:
+    novo_tabuleiro = copy.deepcopy(tabuleiro)
+
+    # Encontrar peça na posição de origem
+    peca = None
+    for i, pos in enumerate(novo_tabuleiro):
+        if pos[2:] == origem:
+            peca = novo_tabuleiro.pop(i)
+            break
+
+    # Remove peça capturada na posição de destino
+    novo_tabuleiro = [p for p in novo_tabuleiro if p[2:] != destino]
+
+    # Move a peça para o destino
+    if peca:
+        peca = peca[:2] + destino
+        novo_tabuleiro.append(peca)
+
+    return novo_tabuleiro
+
+
+def verificar_estado(tabuleiro: list[str], cor: str) -> str:
+    tabuleiro_str = ",".join(tabuleiro)
+    resp = requests.get(
+        f"{RULES_SERVER}/ChessRules/verificarEstado",
+        params={"tabuleiro": tabuleiro_str, "cor": cor}
+    )
+    resp.raise_for_status()
+    return resp.json().get("msg", "ANDAMENTO")
+
 def minimax(tabuleiro, cor, profundidade, alpha, beta, maximizing_player):
     if profundidade == 0:
+        return evaluate_position(tabuleiro, cor), None
+
+    estado = verificar_estado(tabuleiro, cor if maximizing_player else opponent(cor))
+    if estado != "ANDAMENTO":
         return evaluate_position(tabuleiro, cor), None
 
     jogadas = get_all_moves(tabuleiro, cor if maximizing_player else opponent(cor))
@@ -74,33 +126,8 @@ def minimax(tabuleiro, cor, profundidade, alpha, beta, maximizing_player):
                     break
         return min_eval, melhor_jogada
 
-def opponent(cor):
-    return "PRETO" if cor == "BRANCO" else "BRANCO"
 
-def get_all_moves(tabuleiro, cor):
-    resp = requests.get(
-        f"{RULES_SERVER}/ChessRules/TodasJogadasPossiveis",
-        json={"Tabuleiro": tabuleiro, "Cor": cor}
-    )
-    return resp.json().get("msg", {})
-
-def simulate_move(tabuleiro, origem, destino):
-    novo_tabuleiro = copy.deepcopy(tabuleiro)
-
-    peca = None
-    for i, pos in enumerate(novo_tabuleiro):
-        if pos[2:] == origem:
-            peca = novo_tabuleiro.pop(i)
-            break
-
-    novo_tabuleiro = [p for p in novo_tabuleiro if p[2:] != destino]
-
-    if peca:
-        peca = peca[:2] + destino
-        novo_tabuleiro.append(peca)
-    return novo_tabuleiro
-
-# ENDPOINT PRINCIPAL
+# Endpoint principal
 @app.post("/best-move", response_model=IAResponse)
 def get_best_move(req: IARequest):
     _, jogada = minimax(req.tabuleiro, req.cor, profundidade=2, alpha=float("-inf"), beta=float("inf"), maximizing_player=True)
