@@ -52,7 +52,7 @@ public class ServicoChessRules {
         }
     }
     public static String jogadasPossiveis(List<String> tabuleiro, String posicao){
-        String urlParaChamada = webService + "/ChessRules/JogadasPossiveis";
+        String urlParaChamada = webService + "/ChessRules/jogadasPossiveis";
 
         try {
             URL url = new URL(urlParaChamada);
