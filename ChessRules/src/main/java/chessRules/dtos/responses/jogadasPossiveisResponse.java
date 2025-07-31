@@ -2,10 +2,10 @@ package chessRules.dtos.responses;
 
 import java.util.List;
 
-public class jogadasPossiveisResponse {
+public class JogadasPossiveisResponse {
     private List<String> msg;
 
-    public jogadasPossiveisResponse(List<String> msg) {
+    public JogadasPossiveisResponse(List<String> msg) {
         this.msg = msg;
     }
 

@@ -1,9 +1,9 @@
 package chessRules.dtos.responses;
 
-public class verificarEstadoRespose {
+public class VerificarEstadoResponse {
     private String msg;
 
-    public verificarEstadoRespose(String msg) {
+    public VerificarEstadoResponse(String msg) {
         this.msg = msg;
     }
 
