@@ -155,7 +155,7 @@ public class Controll {
     @GetMapping("/ChessGame/jogadaBot")
     CompletableFuture<String> jogadaBot(
             @RequestParam("id") int id,
-            @RequestParam("cor")  String cor) {
+            @RequestParam("cor")  String cor) throws JsonProcessingException {
         /*
         Exemplo of request:
             {
@@ -168,6 +168,17 @@ public class Controll {
                 "msg": "2c-3c"
             }
         */
-        return partidaService.jogadaBot(id, cor);
+        try{
+            return partidaService.jogadaBot(id,cor);
+        } catch (Exception e) {
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(
+                    Map.of(
+                            "erro", e.getMessage(),
+                            "tipo", e.getClass().getSimpleName()
+                    )
+            );
+            return CompletableFuture.completedFuture(json);
+        }
     }
 }

@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ServicoChessBot{
-    static String webService = "http://localhost:8000";
+    static String webService = "http://127.0.0.1:8000";
     static int codigoSucesso = 200;
     public static String jogadaBot(List<String> tabuleiro, String cor) {
         String endpoint = webService + "/best-move";

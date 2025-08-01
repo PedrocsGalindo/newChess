@@ -23,7 +23,7 @@ public class GerenciadorPartida {
             tabuleiros.put(id, t);
             return "Sucesso";
         } catch (Exception e) {
-            return "Erro: " + e.getMessage();
+            throw new NullPointerException("Não foi possivel criar partida");
         }
     }
     public static String verificarEstado(int id, String cor) throws NullPointerException {
@@ -43,8 +43,12 @@ public class GerenciadorPartida {
         }
     }
     public static String jogadaBot(int id, String c){
-        Tabuleiro t = tabuleiros.get(id);
-        return sb.jogadaBot(t.asList(),c);
+        Tabuleiro tabuleiro = tabuleiros.get(id);
+        if (tabuleiro != null) {
+            return sb.jogadaBot(tabuleiro.asList(), c);
+        } else {
+            throw new NullPointerException("Id não encontrado");
+        }
     }
     // responsabilidade do front chamar o serviço correto
     public static String moverPecaPromover(int id, String posicao, String novaPosicao, char novaPeca){
