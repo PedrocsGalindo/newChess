@@ -1,7 +1,5 @@
 package chessGame.dtos.requests;
 
-import chessGame.models.Tabuleiro;
-
 import java.util.List;
 
 public class ServiceVerificarEstadoRequest {
