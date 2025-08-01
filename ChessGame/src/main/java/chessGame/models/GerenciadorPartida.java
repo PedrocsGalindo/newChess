@@ -44,7 +44,7 @@ public class GerenciadorPartida {
     }
     public static String jogadaBot(int id, String c){
         Tabuleiro t = tabuleiros.get(id);
-        return sb.jogadaBot(t.asListString(),c);
+        return sb.jogadaBot(t.asList(),c);
     }
     // responsabilidade do front chamar o serviço correto
     public static String moverPecaPromover(int id, String posicao, String novaPosicao, char novaPeca){
