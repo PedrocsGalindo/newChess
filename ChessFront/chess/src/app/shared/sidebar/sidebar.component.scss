@@ -1,0 +1,22 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.sidebar {
+  width: 190px;
+  height: 100vh;
+  background-color: #2e2e2e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .logo{
+    margin-top:10px;
+    width: 160px;       
+    height: auto;         
+  }
+}
+

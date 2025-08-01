@@ -1,0 +1,34 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.line {
+  display: flex;
+}
+
+.square {
+  width: 125px;
+  height: 125px;
+}
+
+.white {
+  background-color: #f5efe5;
+}
+
+.black {
+  background-color: #769656;
+}
+
+.piece {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.square.selected {
+  outline: 3px solid black;
+}

@@ -1,0 +1,19 @@
+.screen{
+    width: 100%vh;
+    height: 100vh;
+    background-color: #3a3a3a;
+    .layout{
+        display: flex;
+        flex-direction: row;
+        gap: 120px;
+        height: 100vh   ;
+    }
+
+    .board{
+        flex:1;
+        display: flex;
+        align-items: center;
+    }
+}
+
+
