@@ -227,6 +227,8 @@ public class VerificadorDeJogadas {
                     if (((Peao) pecaC2).getMoveCount() != 1) {
                         posicoes.removeIf(element -> element.equals(casa1.getPosicao()));
                     }
+                } else {
+                    posicoes.removeIf(element -> element.equals(casa1.getPosicao()));
                 }
             }
         }
@@ -246,6 +248,8 @@ public class VerificadorDeJogadas {
                     if (((Peao) pecaC4).getMoveCount() != 1) {
                         posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
                     }
+                } else {
+                    posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
                 }
             }
         }
@@ -286,6 +290,8 @@ public class VerificadorDeJogadas {
                     if (((Peao) pecaC2).getMoveCount() != 1) {
                         posicoes.removeIf(element -> element.equals(casa1.getPosicao()));
                     }
+                } else {
+                    posicoes.removeIf(element -> element.equals(casa1.getPosicao()));
                 }
             }
         }
@@ -305,6 +311,8 @@ public class VerificadorDeJogadas {
                     if (((Peao) pecaC4).getMoveCount() != 1) {
                         posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
                     }
+                } else {
+                    posicoes.removeIf(element -> element.equals(casa3.getPosicao()));
                 }
             }
         }

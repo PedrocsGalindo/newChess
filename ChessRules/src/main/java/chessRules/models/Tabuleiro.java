@@ -117,7 +117,7 @@ public class Tabuleiro implements Cloneable {
                 if (peca != null){
                     tabuleiro.append(peca);
                 } else {
-                    tabuleiro.append(" ");
+                    tabuleiro.append("  ");
                 }
                 tabuleiro.append(" ");
             }
