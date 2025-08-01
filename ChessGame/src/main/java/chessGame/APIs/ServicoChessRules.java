@@ -1,37 +1,34 @@
 package chessGame.APIs;
 
-import chessGame.dtos.requests.ServiceJogadasPossiveisRequest;
-import chessGame.dtos.requests.ServiceVerificarEstadoRequest;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class ServicoChessRules {
     //ajeitar o https para porta correta
     static String webService = "http://localhost:8081";
     static int codigoSucesso = 200;
 
-    public static String verificarEstado(List<String> tabuleiro, String cor) {
+    public static String verificarEstado(String tabuleiro, String cor) {
         String urlParaChamada = webService + "/ChessRules/verificarEstado";
 
         System.out.println(urlParaChamada);
         try {
-            URL url = new URL(urlParaChamada);
+            // Encode seguro para a query string
+            String qTab = URLEncoder.encode(tabuleiro, StandardCharsets.UTF_8.name());
+            String qCor = URLEncoder.encode(cor, StandardCharsets.UTF_8.name());
+            String urlComParams = urlParaChamada + "?tabuleiro=" + qTab + "&cor=" + qCor;
+
+            URL url = new URL(urlComParams);
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
             conexao.setRequestMethod("GET");
-            conexao.setRequestProperty("Content-Type", "application/json");
-            conexao.setDoOutput(true);
-
-            // requisicao
-            ServiceVerificarEstadoRequest request = new ServiceVerificarEstadoRequest(tabuleiro, cor);
-            String jsonRequest = Util.ObjectToJsonString(request);
-            OutputStream os = conexao.getOutputStream();
-            os.write(jsonRequest.getBytes());
-            os.flush();
+            conexao.setRequestProperty("Accept", "application/json");
+            conexao.setConnectTimeout(10_000);
+            conexao.setReadTimeout(10_000);
 
             if (conexao.getResponseCode() != codigoSucesso) {
                 throw new RuntimeException("HTTP error code : " + conexao.getResponseCode());
@@ -52,22 +49,21 @@ public class ServicoChessRules {
             return "ERRO ao verificar estado: " + e.getMessage();
         }
     }
-    public static String jogadasPossiveis(List<String> tabuleiro, String posicao){
+    public static String jogadasPossiveis(String tabuleiro, String posicao){
         String urlParaChamada = webService + "/ChessRules/jogadasPossiveis";
 
         try {
-            URL url = new URL(urlParaChamada);
+            // Encode seguro para a query string
+            String qTab = URLEncoder.encode(tabuleiro, StandardCharsets.UTF_8.name());
+            String qPosicao = URLEncoder.encode(posicao, StandardCharsets.UTF_8.name());
+            String urlComParams = urlParaChamada + "?tabuleiro=" + qTab + "&posicao=" + qPosicao;
+
+            URL url = new URL(urlComParams);
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
             conexao.setRequestMethod("GET");
-            conexao.setRequestProperty("Content-Type", "application/json");
-            conexao.setDoOutput(true);
-
-            // requisicao
-            ServiceJogadasPossiveisRequest request = new ServiceJogadasPossiveisRequest(tabuleiro, posicao);
-            String jsonRequest = Util.ObjectToJsonString(request);
-            OutputStream os = conexao.getOutputStream();
-            os.write(jsonRequest.getBytes());
-            os.flush();
+            conexao.setRequestProperty("Accept", "application/json");
+            conexao.setConnectTimeout(10_000);
+            conexao.setReadTimeout(10_000);
 
             if (conexao.getResponseCode() != codigoSucesso) {
                 throw new RuntimeException("HTTP error code : " + conexao.getResponseCode());

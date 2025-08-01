@@ -136,6 +136,20 @@ public class Tabuleiro implements Cloneable {
         }
         return tabuleiro;
     }
+    @JsonValue
+    public String asListString() {
+        StringBuilder tabuleiro = new StringBuilder();
+        for (int i = 7; i >= 0; i--){
+            for (int j = 7; j >= 0; j--){
+                if (this.casas[i][j].getPeca() != null){
+                    tabuleiro.append(this.casas[i][j].toString()).append(",");
+                }
+            }
+        }
+        tabuleiro.deleteCharAt(tabuleiro.length() - 1);
+
+        return tabuleiro.toString();
+    }
     @Override
     public Tabuleiro clone() {
         try {

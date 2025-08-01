@@ -29,17 +29,17 @@ public class GerenciadorPartida {
     public static String verificarEstado(int id, String cor) {
         Tabuleiro tabuleiro = tabuleiros.get(id);
         if (tabuleiro != null) {
-            return sr.verificarEstado(tabuleiro.asList(), cor);
+            return sr.verificarEstado(tabuleiro.asListString(), cor);
         } else {
             return "Erro: id não encontrado";
         }
     }
     public static String jogadasPossiveis(int id, String posicao){
-        return sr.jogadasPossiveis(tabuleiros.get(id).asList(), posicao);
+        return sr.jogadasPossiveis(tabuleiros.get(id).asListString(), posicao);
     }
     public static String jogadaBot(int id, String c){
         Tabuleiro t = tabuleiros.get(id);
-        return sb.jogadaBot(t.asList(),c);
+        return sb.jogadaBot(t.asListString(),c);
     }
     // responsabilidade do front chamar o serviço correto
     public static String moverPecaPromover(int id, String posicao, String novaPosicao, char novaPeca){
