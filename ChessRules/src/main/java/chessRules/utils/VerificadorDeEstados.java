@@ -72,11 +72,13 @@ public class VerificadorDeEstados {
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 Peca pecaA = tabuleiro.getCasa(i, j).getPeca();
-                if (pecaA.getColor().equals(cor)){
-                    Posicao posicaoA = new Posicao(i, j);
-                    List<Posicao> posicoes = vj.verificarJogada(tabuleiro, posicaoA);
-                    if (! posicoes.isEmpty()){
-                        return false;
+                if (pecaA != null){
+                    if (pecaA.getColor().equals(cor)){
+                        Posicao posicaoA = new Posicao(i, j);
+                        List<Posicao> posicoes = vj.verificarJogada(tabuleiro, posicaoA);
+                        if (! posicoes.isEmpty()){
+                            return false;
+                        }
                     }
                 }
             }

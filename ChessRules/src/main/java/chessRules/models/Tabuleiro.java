@@ -37,6 +37,33 @@ public class Tabuleiro implements Cloneable {
             this.casas[l][c].setPeca(corPeca, peca);
         }
     }
+    public Tabuleiro(String posicaoPecas){
+        //remove espaçoes em branco caso tenha
+        posicaoPecas = posicaoPecas.replaceAll("\\s+", "");
+
+        String[] partes = posicaoPecas.split(",");
+
+        for (int l= 0; l<8; l++){
+            for (int c= 0; c<8; c++){
+                this.casas[l][c] = new Casa(new Posicao(l, c));
+            }
+        }
+        int linha, l, c;
+        char coluna, corPeca, peca;
+
+        for (String pp : partes){
+            System.out.println(pp);
+            corPeca = pp.charAt(0);
+            peca = pp.charAt(1);
+            linha = Character.getNumericValue(pp.charAt(2));
+            coluna = pp.charAt(3);
+            System.out.println(linha+""+coluna);
+            Posicao p = new Posicao(linha, coluna);
+            l = p.getIndiceLinha();
+            c = p.getIndiceColuna();
+            this.casas[l][c].setPeca(corPeca, peca);
+        }
+    }
     public Casa getCasa(Posicao pos) {
         int linha = pos.getIndiceLinha();
         int coluna = pos.getIndiceColuna();
@@ -111,6 +138,20 @@ public class Tabuleiro implements Cloneable {
             }
         }
         return tabuleiro;
+    }
+    @JsonValue
+    public String asListString() {
+        StringBuilder tabuleiro = new StringBuilder();
+        for (int i = 7; i >= 0; i--){
+            for (int j = 7; j >= 0; j--){
+                if (this.casas[i][j].getPeca() != null){
+                    tabuleiro.append(this.casas[i][j].toString()).append(",");
+                }
+            }
+        }
+        tabuleiro.deleteCharAt(tabuleiro.length() - 1);
+
+        return tabuleiro.toString();
     }
     @Override
     public Tabuleiro clone() {

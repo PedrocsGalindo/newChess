@@ -4,8 +4,6 @@ import uvicorn
 
 app = FastAPI()
 
-# Dicionário para guardar as conexões por partida
-# Ex: rooms["match1"] = [websocket1, websocket2]
 rooms = defaultdict(list)
 
 @app.websocket("/ws/{match_id}/{player_id}")
