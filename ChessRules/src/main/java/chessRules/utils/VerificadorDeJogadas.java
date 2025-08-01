@@ -113,11 +113,12 @@ public class VerificadorDeJogadas {
 
         for (Posicao p: posicoes){
             Casa casa = tabuleiro.getCasa(p);
-            // se for da mesma cor
-            if(casa.getPeca().getColor() == corPeca){
+            Peca peca = casa.getPeca();
+            if(peca != null && peca.getColor() == corPeca){
                 posicoesToRemove.add(p);
             }
         }
+
         posicoes.removeAll(posicoesToRemove);
     }
     private void verificarJogadaCavalo(Tabuleiro tabuleiro, List<Posicao> posicoes, Cor corPeca) {

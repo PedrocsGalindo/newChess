@@ -3,7 +3,9 @@ from pydantic import BaseModel
 import requests
 import copy
 
-RULES_SERVER = "http://localhost:8080"
+RULES_SERVER = "http://localhost:8081"
+
+app = FastAPI(title="Chess AI Service")
 
 class IARequest(BaseModel):
     tabuleiro: list[str]  # Lista de strings como ["WR1a", "WN2a", ...]
@@ -37,35 +39,33 @@ def evaluate_position(tabuleiro: list[str], cor: str) -> int:
             score -= valor
     return score if cor == "BRANCO" else -score
 
-
 def opponent(cor: str) -> str:
     return "PRETO" if cor == "BRANCO" else "BRANCO"
-
 
 def get_all_moves(tabuleiro: list[str], cor: str) -> dict:
     """
     Consulta o módulo de regras para obter todas as jogadas possíveis.
     Retorna dict {origem: [destinos]}.
     """
-    resp = requests.get(
-        f"{RULES_SERVER}/ChessRules/todasJogadasPossiveis",
-        json={"tabuleiro": tabuleiro, "cor": cor}
-    )
+    params = {
+        "tabuleiro": ",".join(tabuleiro),
+        "cor": cor
+    }
+    resp = requests.get(f"{RULES_SERVER}/ChessRules/todasJogadasPossiveis", params=params)
     resp.raise_for_status()
     return resp.json().get("msg", {})
-
 
 def simulate_move(tabuleiro: list[str], origem: str, destino: str) -> list[str]:
     novo_tabuleiro = copy.deepcopy(tabuleiro)
 
-    # Encontrar peça na posição de origem
+    # Encontrar peça na posição de origem e removê-la
     peca = None
     for i, pos in enumerate(novo_tabuleiro):
         if pos[2:] == origem:
             peca = novo_tabuleiro.pop(i)
             break
 
-    # Remove peça capturada na posição de destino
+    # Remove peça capturada na posição de destino, se houver
     novo_tabuleiro = [p for p in novo_tabuleiro if p[2:] != destino]
 
     # Move a peça para o destino
@@ -74,7 +74,6 @@ def simulate_move(tabuleiro: list[str], origem: str, destino: str) -> list[str]:
         novo_tabuleiro.append(peca)
 
     return novo_tabuleiro
-
 
 def verificar_estado(tabuleiro: list[str], cor: str) -> str:
     tabuleiro_str = ",".join(tabuleiro)
@@ -125,7 +124,6 @@ def minimax(tabuleiro, cor, profundidade, alpha, beta, maximizing_player):
                 if beta <= alpha:
                     break
         return min_eval, melhor_jogada
-
 
 # Endpoint principal
 @app.post("/best-move", response_model=IAResponse)

@@ -11,14 +11,20 @@ tabuleiro_exemplo = [
 
 cor = "BRANCO"
 
+payload = {
+    "tabuleiro": tabuleiro_exemplo,
+    "cor": cor
+}
+
 resposta = requests.post(
     IA_URL,
     headers={"Content-Type": "application/json"},
-    data=json.dumps({
-        "tabuleiro": tabuleiro_exemplo,
-        "cor": cor
-    })
+    data=json.dumps(payload)
 )
 
 print("Status:", resposta.status_code)
-print("Resposta JSON:", resposta.json())
+try:
+    print("Resposta JSON:", resposta.json())
+except Exception as e:
+    print("Erro ao ler JSON:", e)
+    print("Texto da resposta:", resposta.text)
