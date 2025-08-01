@@ -56,7 +56,7 @@ public class ServicoChessRules {
             // Encode seguro para a query string
             String qTab = URLEncoder.encode(tabuleiro, StandardCharsets.UTF_8.name());
             String qPosicao = URLEncoder.encode(posicao, StandardCharsets.UTF_8.name());
-            String urlComParams = urlParaChamada + "?tabuleiro=" + qTab + "&posicao=" + qPosicao;
+            String urlComParams = urlParaChamada + "?tabuleiro=" + qTab + "&pos=" + qPosicao;
 
             URL url = new URL(urlComParams);
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();

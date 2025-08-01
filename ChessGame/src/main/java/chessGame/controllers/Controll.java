@@ -3,18 +3,16 @@ package chessGame.controllers;
 import chessGame.dtos.requests.CriarPartidaRequest;
 import chessGame.dtos.requests.JogadaPromocaoRequest;
 import chessGame.dtos.requests.JogadaRequest;
-import chessGame.dtos.requests.JogadasPossiveisRequest;
-import chessGame.dtos.requests.VerificarEstadoRequest;
 import chessGame.dtos.responses.Response;
 import chessGame.exceptions.KingInDangerException;
 import chessGame.service.GerenciadorPartidaAsync;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -24,7 +22,8 @@ public class Controll {
     private GerenciadorPartidaAsync partidaService;
 
     @GetMapping("/ChessGame/ultimaJogada")
-    CompletableFuture<Response> ultimaJogada(@RequestBody CriarPartidaRequest request) {
+    CompletableFuture<Response> ultimaJogada(
+            @RequestParam("id") int id) {
         /*
         Exemplo of request:
             {
@@ -36,7 +35,7 @@ public class Controll {
                 msg: "1c-2c"
             }
         */
-        return partidaService.getUltimaJogada(request.getId());
+        return partidaService.getUltimaJogada(id);
     }
     @PostMapping("/ChessGame/criarPartida")
     CompletableFuture<Response> criarPartida(@RequestBody CriarPartidaRequest request) {
@@ -91,7 +90,9 @@ public class Controll {
         return partidaService.moverPecaPromover(request.getId(), request.getPosicao(), request.getNovaPosicao(), request.getNovaPeca());
     }
     @GetMapping("/ChessGame/verificarEstado")
-    CompletableFuture<String> verificarEstado(@RequestBody VerificarEstadoRequest request) throws Exception {
+    CompletableFuture<String> verificarEstado(
+            @RequestParam("id") int id,
+            @RequestParam("cor") String cor) throws JsonProcessingException {
         /*
         Exemplo of request:
             {
@@ -104,15 +105,29 @@ public class Controll {
                 "msg": "ANDAMENTO"
             }
         */
-        return partidaService.verificarEstado(request.getId(), request.getCor());
+        try {
+            return partidaService.verificarEstado(id, cor);
+        } catch (Exception e) {
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(
+                    Map.of(
+                            "erro", e.getMessage(),
+                            "tipo", e.getClass().getSimpleName()
+                    )
+            );
+            return CompletableFuture.completedFuture(json);
+        }
+
     }
-    @PostMapping("/ChessGame/jogadasPossiveis")
-    CompletableFuture<String> jogadasPossiveis(@RequestBody JogadasPossiveisRequest request) {
+    @GetMapping("/ChessGame/jogadasPossiveis")
+    CompletableFuture<String> jogadasPossiveis(
+            @RequestParam("id") int id,
+            @RequestParam("pos") String pos) throws JsonProcessingException {
         /*
         Exemplo of request:
             {
                 "id": 3,
-                "posicao": "2c"
+                "pos": "2c"
             }
 
         Exemplo of return:
@@ -123,11 +138,24 @@ public class Controll {
                 ]
             }
         */
-        return partidaService.jogadasPossiveis(request.getId(), request.getPosicao());
+        try{
+            return partidaService.jogadasPossiveis(id,pos);
+        } catch (Exception e) {
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(
+                    Map.of(
+                            "erro", e.getMessage(),
+                            "tipo", e.getClass().getSimpleName()
+                    )
+            );
+            return CompletableFuture.completedFuture(json);
+        }
     }
 
-    @PostMapping("/ChessGame/jogadaBot")
-    CompletableFuture<String> jogadaBot(@RequestBody VerificarEstadoRequest request) {
+    @GetMapping("/ChessGame/jogadaBot")
+    CompletableFuture<String> jogadaBot(
+            @RequestParam("id") int id,
+            @RequestParam("cor")  String cor) {
         /*
         Exemplo of request:
             {
@@ -140,6 +168,6 @@ public class Controll {
                 "msg": "2c-3c"
             }
         */
-        return partidaService.jogadaBot(request.getId(), request.getCor());
+        return partidaService.jogadaBot(id, cor);
     }
 }

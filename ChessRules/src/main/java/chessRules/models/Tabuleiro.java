@@ -52,12 +52,10 @@ public class Tabuleiro implements Cloneable {
         char coluna, corPeca, peca;
 
         for (String pp : partes){
-            System.out.println(pp);
             corPeca = pp.charAt(0);
             peca = pp.charAt(1);
             linha = Character.getNumericValue(pp.charAt(2));
             coluna = pp.charAt(3);
-            System.out.println(linha+""+coluna);
             Posicao p = new Posicao(linha, coluna);
             l = p.getIndiceLinha();
             c = p.getIndiceColuna();

@@ -26,16 +26,21 @@ public class GerenciadorPartida {
             return "Erro: " + e.getMessage();
         }
     }
-    public static String verificarEstado(int id, String cor) {
+    public static String verificarEstado(int id, String cor) throws NullPointerException {
         Tabuleiro tabuleiro = tabuleiros.get(id);
         if (tabuleiro != null) {
             return sr.verificarEstado(tabuleiro.asListString(), cor);
         } else {
-            return "Erro: id não encontrado";
+            throw new NullPointerException("Id não encontrado");
         }
     }
-    public static String jogadasPossiveis(int id, String posicao){
-        return sr.jogadasPossiveis(tabuleiros.get(id).asListString(), posicao);
+    public static String jogadasPossiveis(int id, String posicao) throws NullPointerException {
+        Tabuleiro tabuleiro = tabuleiros.get(id);
+        if (tabuleiro != null) {
+            return sr.jogadasPossiveis(tabuleiro.asListString(), posicao);
+        } else {
+            throw new NullPointerException("Id não encontrado");
+        }
     }
     public static String jogadaBot(int id, String c){
         Tabuleiro t = tabuleiros.get(id);
