@@ -1,4 +1,5 @@
 import chessRules.models.Partida;
+import chessRules.models.Peca;
 import chessRules.models.Posicao;
 import chessRules.models.Tabuleiro;
 import chessRules.models.pecas.Cor;
@@ -18,8 +19,12 @@ public class main {
             posPeao = jogadas.get(0);
             System.out.println(p1.getTabuleiro().toString());
             System.out.println("\n");
-            jogadas = p1.possiveisMovimentos(posPeao);
+            Posicao posRainha = new Posicao(1, 'a');
+            Peca rainha =  p1.getTabuleiro().getCasa(posRainha).getPeca();
+            System.out.println(rainha.toString());
+            jogadas = p1.possiveisMovimentos(posRainha);
             System.out.println(jogadas);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

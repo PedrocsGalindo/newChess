@@ -26,14 +26,59 @@ public class Posicao implements Comparable<Posicao>{
         if (c < 0 || c > 7) {
             throw new IllegalArgumentException("Coluna inválida: " + c);
         }
-        this.coluna = (char)(c+97);
+        this.coluna = intToColuna(c);
     }
 
     public int getIndiceLinha() {
         return linha-1;
     }
     public int getIndiceColuna() {
-        return ((int)coluna)-97;
+        // inverter a ordem (a-7 e h-0)
+        return colunaToInt(coluna);
+    }
+    private char intToColuna(int c){
+        switch(c) {
+            case 7:
+                return 'a';
+            case 6:
+                return 'b';
+            case 5:
+                return 'c';
+            case 4:
+                return 'd';
+            case 3:
+                return 'e';
+            case 2:
+                return 'f';
+            case 1:
+                return 'g';
+            case 0:
+                return 'h';
+            default:
+                return 'h';
+        }
+    }
+    private int colunaToInt(char c){
+        switch(c) {
+            case 'a':
+                return 7;
+            case 'b':
+                return 6;
+            case 'c':
+                return 5;
+            case 'd':
+                return 4;
+            case 'e':
+                return 3;
+            case 'f':
+                return 2;
+            case 'g':
+                return 1;
+            case 'h':
+                return 0;
+            default:
+                return 0;
+        }
     }
     @JsonValue
     public String asString() {

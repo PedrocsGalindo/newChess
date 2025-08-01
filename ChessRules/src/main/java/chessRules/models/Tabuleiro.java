@@ -14,6 +14,8 @@ public class Tabuleiro implements Cloneable {
         for (int l= 0; l<8; l++){
             for (int c= 0; c<8; c++){
                 this.casas[l][c] = new Casa(new Posicao(l, c));
+                Posicao p = new Posicao(l, c);
+                System.out.println(p);
             }
         }
     }
@@ -115,7 +117,9 @@ public class Tabuleiro implements Cloneable {
             for (int j = 7; j >= 0; j--){
                 Peca peca = this.casas[i][j].getPeca();
                 if (peca != null){
-                    tabuleiro.append(peca);
+                    StringBuilder linha = new StringBuilder();
+                    linha.append(peca);
+                    tabuleiro.append(linha);
                 } else {
                     tabuleiro.append("  ");
                 }
