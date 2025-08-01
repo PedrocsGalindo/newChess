@@ -1,5 +1,6 @@
 ﻿using Matchfinder.DTOs;
 using Matchfinder.Interfaces;
+using System;
 
 namespace Matchfinder.Services
 {
@@ -20,7 +21,7 @@ namespace Matchfinder.Services
                 {
                     var j1 = fila.Dequeue();
                     var j2 = fila.Dequeue();
-                    var IdPartida = "1abasfsadf12432";
+                    var IdPartida = Guid.NewGuid().ToString();
                     var novaPartida = new PartidaDTO(IdPartida, j1.Id, j2.Id);
 
                     esperaPartida.SetResult(novaPartida);
