@@ -44,8 +44,8 @@ public class VerificadorAsync {
     }
     @Async
     public CompletableFuture<JogadasPossiveisResponse> jogadasPossiveis(String t, String pos) {
-        int linha = Character.getNumericValue(pos.charAt(2));
-        char coluna = pos.charAt(3);
+        int linha = Character.getNumericValue(pos.charAt(0));
+        char coluna = pos.charAt(1);
         Posicao po = new Posicao(linha, coluna);
         var jogadas = vj.verificarJogada(new Tabuleiro(t),po);
         List<String> resposta = new ArrayList<>();
